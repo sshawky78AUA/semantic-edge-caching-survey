@@ -25,8 +25,8 @@ plt.rcParams.update({
 OUT = '../figs/'
 
 
-LEG = dict(frameon=False, fontsize=6.5, handlelength=2.2, handletextpad=0.5,
-           columnspacing=1.2, labelspacing=0.35, borderaxespad=0.0)
+LEG = dict(frameon=False, fontsize=6.5, handlelength=1.9, handletextpad=0.4,
+           columnspacing=0.9, labelspacing=0.35, borderaxespad=0.0)
 
 
 def legend_below(fig, axes, handles=None, labels=None, ncol=2, gap=0.012, row=None):
@@ -106,10 +106,14 @@ def fig_e1():
     ax[2].set_xscale('log'); ax[2].set_xlabel('Counters kept $M$ (log scale)')
     ax[2].set_ylabel('Hit ratio $h$'); tag(ax[2], r'(c) Predictor memory ($\delta=0.1$)')
     fig.tight_layout(w_pad=1.0)
-    h, l = ax[1].get_legend_handles_labels()
-    k = [0, 2, 4, 1, 3, 5]                     # EWMA in the first column, last epoch in the second
-    legend_below(fig, ax[0], ncol=2, row=ax)
-    legend_below(fig, ax[1], [h[i] for i in k], [l[i] for i in k], ncol=2, row=ax)
+    # (b): colour and marker give the skew, line style the estimator
+    from matplotlib.lines import Line2D
+    hb = [Line2D([], [], color=SL[i], marker=MK[i], ls='-') for i in range(3)] + \
+         [Line2D([], [], color=MUTED, ls='-'), Line2D([], [], color=MUTED, ls='--')]
+    lb = [r'$\gamma=0.6$', r'$\gamma=0.8$', r'$\gamma=1.0$', 'EWMA', 'Last epoch']
+    legend_below(fig, ax[0], ncol=3, row=ax)
+    k = [0, 3, 1, 4, 2]                    # row 1: skews; row 2: estimators
+    legend_below(fig, ax[1], [hb[i] for i in k], [lb[i] for i in k], ncol=3, row=ax)
     legend_below(fig, ax[2], ncol=2, row=ax)
     fig.savefig(OUT + 'fig_e1_time.pdf'); plt.close(fig)
 
@@ -239,7 +243,7 @@ def cell_means(res, idx, a, b):
 
 def fig_e5():
     r = load('e5')
-    fig, axs = plt.subplots(2, 3, figsize=(TWO, 4.1), gridspec_kw=dict(width_ratios=[1.3, 1, 1], hspace=0.62, wspace=0.12))
+    fig, axs = plt.subplots(2, 3, figsize=(TWO, 3.85), gridspec_kw=dict(width_ratios=[1.3, 1, 1], hspace=0.62, wspace=0.12))
     axa, axb, axf = axs[0]
     # ---- (a), (b): effects with value labels ----
     for ax, idx, scale, fmt, lab in [(axa, 11, 100, '{:+.1f}', 'Effect on $h$ (points)'),
