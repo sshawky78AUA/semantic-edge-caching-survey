@@ -141,7 +141,7 @@ def fig_e1r():
 
 def fig_e2():
     r = load('e2')
-    fig, ax = plt.subplots(1, 3, figsize=(TWO, 2.05))
+    fig, ax = plt.subplots(1, 3, figsize=(TWO, 1.95))
     cfg = [(2.0, False, 'Independent, 2 m/s'), (2.0, True, 'Coordinated, 2 m/s'),
            (10.0, False, 'Independent, 10 m/s'), (10.0, True, 'Coordinated, 10 m/s')]
     for i, (v, co, lab) in enumerate(cfg):
@@ -167,7 +167,7 @@ def fig_e2():
 
 def fig_e3():
     r = load('e3')
-    fig, ax = plt.subplots(1, 3, figsize=(TWO, 1.85))
+    fig, ax = plt.subplots(1, 3, figsize=(TWO, 1.8))
     pol = [(False, 'Proportional'), ('ref', 'Tuned to 0.5 m/s'), (True, 'Mobility-aware')]
     cut = np.pi * 100 / (4 * 5)
     for i, (aw, lab) in enumerate(pol):
@@ -186,7 +186,7 @@ def fig_e3():
 
 def fig_e4():
     r = load('e4')
-    fig, ax = plt.subplots(1, 3, figsize=(TWO, 1.85))
+    fig, ax = plt.subplots(1, 3, figsize=(TWO, 1.8))
     cfg = [(10, False, '$C_b=10$'), (20, False, '$C_b=20$'), (40, False, '$C_b=40$'),
            (20, True, '$C_b=20$, coordinated')]
     for i, (cb, co, lab) in enumerate(cfg):
@@ -243,7 +243,7 @@ def cell_means(res, idx, a, b):
 
 def fig_e5():
     r = load('e5')
-    fig, axs = plt.subplots(2, 3, figsize=(TWO, 3.85), gridspec_kw=dict(width_ratios=[1.3, 1, 1], hspace=0.62, wspace=0.12))
+    fig, axs = plt.subplots(2, 3, figsize=(TWO, 3.7), gridspec_kw=dict(width_ratios=[1.3, 1, 1], hspace=0.62, wspace=0.12))
     axa, axb, axf = axs[0]
     # ---- (a), (b): effects with value labels ----
     for ax, idx, scale, fmt, lab in [(axa, 11, 100, '{:+.1f}', 'Effect on $h$ (points)'),
