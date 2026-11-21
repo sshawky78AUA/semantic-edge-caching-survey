@@ -119,22 +119,30 @@ def fig_e1():
 
 
 def fig_e1r():
-    """Reactive (LRU, LFU) versus proactive BS caches in a BS-only network."""
-    r = load('e1r')
-    fig, ax = plt.subplots(1, 2, figsize=(ONE, 2.12))
-    ests = [('oracle', 'Oracle'), ('ewma', 'EWMA'), ('stale', 'Last epoch'),
-            ('lru', 'LRU (reactive)'), ('lfu', 'LFU (reactive)')]
-    for i, (e, lab) in enumerate(ests):
-        x, m, c = series(sel(r, est=e), 'drift', 'hit')
-        line(ax[0], x, m, c, i, lab)
-    ax[0].set_xlabel(r'Drift rate $\delta$'); ax[0].set_ylabel('Hit ratio $h$')
-    tag(ax[0], '(a) Hit ratio, BS only')
-    for i, (e, lab) in enumerate(ests):
-        x, m, c = series(sel(r, est=e), 'drift', 'lat')
-        line(ax[1], x, m, c, i, lab)
-    ax[1].set_xlabel(r'Drift rate $\delta$'); ax[1].set_ylabel('Mean latency (ms)')
-    tag(ax[1], '(b) Mean latency')
-    fig.tight_layout(w_pad=0.8)
+    """Controls for RQ1: proactive placement versus reactive policies, pooled and per-cell
+    information, under the independent reference model (a) and temporal locality (b)."""
+    r = json.load(open('res3_e1p.json')) + json.load(open('res4_e1c.json'))
+    for q in r:
+        q['kw'].setdefault('loc', 0.0)
+    pol = [(('oracle', 'pooled'), 'Oracle'), (('ewma', 'pooled'), 'EWMA, pooled'),
+           (('ewma', 'local'), 'EWMA, per cell'), (('lru', 'local'), 'LRU'),
+           (('lfu', 'local'), 'LFU'), (('lfua', 'local'), 'Aged LFU'),
+           (('tlfu', 'local'), 'TinyLFU-style')]
+    cols = SL + [INK]
+    fig, ax = plt.subplots(1, 2, figsize=(ONE, 2.25), sharey=True)
+    for k, loc in enumerate([0.0, 0.5]):
+        for i, ((e, inf), lab) in enumerate(pol):
+            rs = [q for q in r if q['kw']['est'] == e and q['kw']['info'] == inf and q['kw']['loc'] == loc]
+            if not rs:
+                continue
+            x, m, c = series(rs, 'drift', 'hit')
+            st = LS[i] if i < len(LS) else (0, (1, 1))
+            ax[k].plot(x, m, color=cols[i], marker=MK[i % len(MK)] if i < 6 else 'x', ls=st, label=lab)
+            ax[k].fill_between(x, m - c, m + c, color=cols[i], alpha=0.15, lw=0)
+        ax[k].set_xlabel(r'Drift rate $\delta$')
+    ax[0].set_ylabel('Hit ratio $h$')
+    tag(ax[0], '(a) Independent requests'); tag(ax[1], '(b) Temporal locality')
+    fig.tight_layout(w_pad=0.6)
     legend_below(fig, ax, ncol=3)
     fig.savefig(OUT + 'fig_e1r_reactive.pdf'); plt.close(fig)
 
@@ -174,6 +182,11 @@ def fig_e3():
         rs = sel(r, aware=aw)
         for k, y in enumerate(['d2d', 'hit', 'lat']):
             x, m, c = series(rs, 'v', y); line(ax[k], x, m, c, i, lab)
+    rt = json.load(open('res4_e3t.json'))
+    for k, y in enumerate(['d2d', 'hit', 'lat']):
+        x, m, c = series(rt, 'v', y)
+        ax[k].plot(x, m, color=INK, marker='x', ls=(0, (1, 1)), label='Mobility-aware, trajectory rule')
+        ax[k].fill_between(x, m - c, m + c, color=INK, alpha=0.1, lw=0)
     for a in ax:
         a.axvline(cut, color=MUTED, lw=0.8, ls=':')
         a.set_xlabel('Speed $v$ (m/s)')
@@ -181,7 +194,7 @@ def fig_e3():
     ax[0].set_ylabel('D2D share $h_1$'); tag(ax[0], '(a) D2D share vs. speed')
     ax[1].set_ylabel('Hit ratio $h$'); tag(ax[1], '(b) Hit ratio vs. speed')
     ax[2].set_ylabel(r'Mean latency $\bar d$ (ms)'); tag(ax[2], '(c) Latency vs. speed')
-    fig.tight_layout(w_pad=1.0); legend_below(fig, ax, ncol=3); fig.savefig(OUT + 'fig_e3_place.pdf'); plt.close(fig)
+    fig.tight_layout(w_pad=1.0); legend_below(fig, ax, ncol=4); fig.savefig(OUT + 'fig_e3_place.pdf'); plt.close(fig)
 
 
 def fig_e4():

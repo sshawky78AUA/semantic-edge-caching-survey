@@ -6,26 +6,42 @@ DEF = dict(F=400, K=80, gamma=0.8, N=80, area=600., r=100., v=2., tf=5., dt=5.,
            Cb=20, Cd=10, drift=0.05, est='ewma', alpha=0.5, W=3, M=None,
            tau=1.0, s=0.4, p_part=1.0, aware=True, coop=False,
            E=20, T=20, warm=3, lat=(1., 5., 20., 40., 100.),
-           c_bh=1.0, c_ib=0.3, kappa=4.0, beta=1.0)
+           c_bh=1.0, c_ib=0.3, kappa=4.0, beta=1.0,
+           info='pooled', cost_dist='uniform', idx_slots=0,
+           loc=0.0, loc_len=50, lam_cell=0.0, class_corr=False, contact='mean')
 # est: 'oracle', 'stale' (last epoch), 'window', 'ewma', 'mem' (EWMA bounded to M counters)
 #      proactive estimators, BS caches filled once per epoch from the estimate;
 #      'lru', 'lfu' reactive BS caches, updated at every request that reaches the BS.
 # beta: probability that a device is active in a slot (at most one request per slot).
-REACTIVE = ('lru', 'lfu')
+# info: 'pooled' (proactive BSs share one estimate), 'shared' (reactive BSs share one replacement state,
+#       mirrored at every BS) or 'local' (each BS uses only the requests of its own cell).
+#       Defaults reproduce the published results: proactive pooled, reactive local.
+# cost_dist: distribution of private participation costs c_u: 'uniform', 'beta25', 'beta52'.
+# idx_slots: BS cache slots given up to the semantic index (only when tau < 1).
+# 'lfua': LFU whose counts are halved at the end of every epoch (aging).
+# 'tlfu': LRU eviction with frequency-based admission (TinyLFU-style, exact aged counters).
+# loc: probability that a request re-references an item drawn from the last loc_len requests
+#      (temporal locality, independent reference model when 0).
+# lam_cell: weight of a cell-specific Zipf popularity mixed into the common one.
+# class_corr: popularity ranks assigned to whole semantic classes (drift moves classes).
+# contact: 'mean' (usability rule of the paper) or 'traj' (pair still in range after t_f
+#          along the simulated trajectories; exact for t_f <= dt).
+REACTIVE = ('lru', 'lfu', 'lfua', 'tlfu')
 BS = np.array([[200., 200.], [600., 200.], [200., 600.], [600., 600.]])
 B = 4
 NAMES = ['own', 'd2d', 'bs', 'ibs', 'miss', 'fid', 'lat', 'lat_part', 'lat_non',
-         'sp_cost', 'pay', 'hit', 'participants']
+         'sp_cost', 'pay', 'hit', 'participants', 'exact', 'sem_ok', 'sem_wrong']
 
 
-def semantic(rng, F, K, s, d=16):
+def semantic(rng, F, K, s, d=16, labels=False):
     C = rng.normal(size=(K, d))
     C /= np.linalg.norm(C, axis=1, keepdims=True)
     cls = np.arange(F) % K
     rng.shuffle(cls)
     X = C[cls] + s * rng.normal(size=(F, d)) / np.sqrt(d)
     X /= np.linalg.norm(X, axis=1, keepdims=True)
-    return np.clip(X @ X.T, -1, 1)
+    S = np.clip(X @ X.T, -1, 1)
+    return (S, cls) if labels else S
 
 
 def greedy_cover(qh, Cm, n):
@@ -40,23 +56,31 @@ def greedy_cover(qh, Cm, n):
     return sel
 
 
+def _cb(p):
+    return max(p['Cb'] - (p['idx_slots'] if p['tau'] < 1 else 0), 0)
+
+
 def place_bs(qh, Cm, p):
-    F = len(qh)
+    F = qh.shape[-1]
     Hb = np.zeros((B, F), bool)
+    if qh.ndim == 2:                       # local information: one estimate per BS
+        for b in range(B):
+            Hb[b, greedy_cover(qh[b], Cm, _cb(p))] = True
+        return Hb
     if not p['coop']:
-        Hb[:, greedy_cover(qh, Cm, p['Cb'])] = True
+        Hb[:, greedy_cover(qh, Cm, _cb(p))] = True
         return Hb
     lat = p['lat']
     L1, L2 = lat[4] - lat[2], lat[4] - lat[3]
     val = np.zeros((B, F))
     used = np.zeros(B, int)
-    for _ in range(B * p['Cb']):
+    for _ in range(B * _cb(p)):
         w1 = qh * np.maximum(L1 - val, 0)
         w2 = qh * np.maximum(L2 - val, 0)
         D = w1 + w2.sum(0) - w2
         G = Cm @ D.T
         G[Hb.T] = -1
-        G[:, used >= p['Cb']] = -1
+        G[:, used >= _cb(p)] = -1
         j, b = np.unravel_index(np.argmax(G), G.shape)
         Hb[b, j] = True
         used[b] += 1
@@ -109,18 +133,23 @@ def place_dev(rng, qh, covered, part_idx, mhat, p):
 def _react(rc, rf, b, i, p):
     """Serve request i at BS b with a reactive cache; return True on a hit."""
     c = rc[b]
-    if p['est'] == 'lfu':
+    est = p['est']
+    if est in ('lfu', 'lfua', 'tlfu'):
         rf[b, i] += 1
     if i in c:
-        if p['est'] == 'lru':
+        if est in ('lru', 'tlfu'):
             c.remove(i)
             c.append(i)
         return True
-    if len(c) < p['Cb']:
+    if len(c) < _cb(p):
         c.append(i)
-    elif p['est'] == 'lru':
+    elif est == 'lru':
         c.pop(0)
         c.append(i)
+    elif est == 'tlfu':
+        if rf[b, i] > rf[b, c[0]]:
+            c.pop(0)
+            c.append(i)
     else:
         k = int(np.argmin(rf[b, c]))
         if rf[b, i] > rf[b, c[k]]:
@@ -128,33 +157,65 @@ def _react(rc, rf, b, i, p):
     return False
 
 
+def _beta_ppf(u, a, b, n=2001):
+    x = np.linspace(0, 1, n)
+    pdf = x ** (a - 1) * (1 - x) ** (b - 1)
+    cdf = np.cumsum(pdf)
+    cdf = (cdf - cdf[0]) / (cdf[-1] - cdf[0])
+    return np.interp(u, cdf, x)
+
+
 def run(seed, **kw):
     p = dict(DEF)
     p.update(kw)
     rng = np.random.default_rng(seed)
     F, N, T, E = p['F'], p['N'], p['T'], p['E']
-    S = semantic(rng, F, p['K'], p['s'])
+    S, cls = semantic(rng, F, p['K'], p['s'], labels=True)
     Cm = (S >= p['tau'] - 1e-9).astype(np.float32)
     w = 1.0 / np.arange(1, F + 1) ** p['gamma']
     w /= w.sum()
     rk = rng.permutation(F)
+    rng2 = np.random.default_rng(seed + 1_000_003)
+    if p['class_corr']:
+        Kc = p['K']
+        within = np.zeros(F, int)
+        for k in range(Kc):
+            idx = np.flatnonzero(cls == k)
+            within[idx] = np.arange(len(idx))
+        crank = rng2.permutation(Kc)
+        size = F // Kc
+        rk = crank[cls] * size + within
+    if p['lam_cell'] > 0:
+        rkc = np.array([rng2.permutation(F) for _ in range(B)])
+    recent = []
     pos = rng.random((N, 2)) * p['area']
     th = rng.random(N) * 2 * np.pi
     cost = rng.random(N)
+    if p['cost_dist'] == 'beta25':
+        cost = _beta_ppf(cost, 2, 5)
+    elif p['cost_dist'] == 'beta52':
+        cost = _beta_ppf(cost, 5, 2)
     part = cost <= p['p_part'] if p['p_part'] < 1 else np.ones(N, bool)
     part_idx = np.flatnonzero(part)
     BSxy = BS / 800. * p['area']
     hist = []
     sm = np.zeros(F)
     acc = np.zeros(8)  # own d2d bs ibs miss fid_sum lat_sum_part lat_sum_non
+    kinds = np.zeros(3)  # exact hits, semantic hits within class, semantic hits across classes
+    local = p['info'] == 'local'
+    histb = []                           # per-BS counts (local information)
+    smb = np.zeros((B, F))
     n_part = n_non = 0
     nreq = 0
     L = p['lat']
     reactive = p['est'] in REACTIVE
+    shared = reactive and p['info'] == 'shared'
     rc = [[] for _ in range(B)]          # reactive cache content per BS (LRU: oldest first)
     rf = np.zeros((B, F))                # LFU request counts per BS
     for e in range(E):
         q = w[rk]
+        if p['lam_cell'] > 0:
+            qc = (1 - p['lam_cell']) * q[None] + p['lam_cell'] * w[rkc]
         if p['est'] == 'oracle':
             qh = q.copy()
         elif p['est'] in REACTIVE:
@@ -176,6 +237,19 @@ def run(seed, **kw):
                     sm = np.where(m, sm, 0.0)
                 qh = sm + 0.1
         qh = qh / qh.sum()
+        if local and not reactive and p['est'] != 'oracle':
+            if not histb:
+                qh = np.ones((B, F)) / F
+            else:
+                cb_ = histb[-1]
+                if p['est'] == 'stale':
+                    qh = cb_ + 0.1
+                elif p['est'] == 'window':
+                    qh = sum(histb[-p['W']:]) + 0.1
+                else:
+                    smb = p['alpha'] * cb_ + (1 - p['alpha']) * smb
+                    qh = smb + 0.1
+            qh = qh / qh.sum(1, keepdims=True)
         if p['est'] in REACTIVE:
             Hb = np.zeros((B, F), bool)
             for b in range(B):
@@ -189,33 +263,58 @@ def run(seed, **kw):
         if vv > 0:
             A0 &= (p['r'] - D0) / (4 * vv / np.pi) >= p['tf']
         mh = A0[np.ix_(part_idx, part_idx)].sum(1).mean() if len(part_idx) else 0
-        Hd = place_dev(rng, qh, covered, part_idx, mh, p)
+        Hd = place_dev(rng, qh if qh.ndim == 1 else qh.mean(0), covered, part_idx, mh, p)
         Hdf = Hd.astype(np.float32)
         cnt = np.zeros(F)
+        cntb = np.zeros((B, F))
         anyb = Hb.any(0)
         for t in range(T):
-            req = np.searchsorted(np.cumsum(q), rng.random(N) * q.sum())
+            if p['lam_cell'] > 0:
+                cell = np.argmin(np.linalg.norm(pos[:, None] - BSxy[None], axis=2), axis=1)
+                uu = rng.random(N)
+                req = np.array([np.searchsorted(np.cumsum(qc[cell[u]]), uu[u]) for u in range(N)])
+            else:
+                req = np.searchsorted(np.cumsum(q), rng.random(N) * q.sum())
             req = np.minimum(req, F - 1)
+            if p['loc'] > 0:
+                if recent:
+                    rr = rng2.random(N) < p['loc']
+                    pick = np.array(recent)[rng2.integers(0, len(recent), N)]
+                    req = np.where(rr, pick, req)
+            
             act = rng.random(N) < p['beta'] if p['beta'] < 1 else np.ones(N, bool)
             cnt += np.bincount(req[act], minlength=F)
+            if p['loc'] > 0:
+                recent.extend(req[act].tolist())
+                recent = recent[-p['loc_len']:]
             re = rng.random(N) < 0.2
             th = np.where(re, rng.random(N) * 2 * np.pi, th)
             pos = pos + p['v'] * p['dt'] * np.stack([np.cos(th), np.sin(th)], 1)
             pos = np.where(pos < 0, -pos, pos)
             pos = np.where(pos > p['area'], 2 * p['area'] - pos, pos)
+            if p['contact'] == 'traj':           # look ahead t_f along a straight segment
+                f = min(p['tf'] / p['dt'], 1.0)
+                th2 = np.where(rng2.random(N) < 0.2, rng2.random(N) * 2 * np.pi, th)
+                pn = pos + f * p['v'] * p['dt'] * np.stack([np.cos(th2), np.sin(th2)], 1)
+                pn = np.where(pn < 0, -pn, pn)
+                pn = np.where(pn > p['area'], 2 * p['area'] - pn, pn)
             if reactive and e < p['warm']:
                 sw = np.argmin(np.linalg.norm(pos[:, None] - BSxy[None], axis=2), axis=1)
                 own_w = (Hd[np.arange(N), req]) & act
                 for u in np.flatnonzero(act & ~own_w):
-                    _react(rc, rf, sw[u], int(req[u]), p)
+                    _react(rc, rf, 0 if shared else sw[u], int(req[u]), p)
             if e < p['warm']:
                 continue
             D = np.linalg.norm(pos[:, None] - pos[None], axis=2)
             Af = (D < p['r']) & ~np.eye(N, dtype=bool)
-            if p['v'] > 0:
+            if p['contact'] == 'traj':
+                Af &= np.linalg.norm(pn[:, None] - pn[None], axis=2) < p['r']
+            elif p['v'] > 0:
                 Af &= (p['r'] - D) / (4 * p['v'] / np.pi) >= p['tf']
             reach = (Af.astype(np.float32) @ Hdf) > 0
             sidx = np.argmin(np.linalg.norm(pos[:, None] - BSxy[None], axis=2), axis=1)
+            if local:
+                np.add.at(cntb, (sidx[act], req[act]), 1)
             Mt = Cm[req] > 0
             Sr = S[req]
             own = np.where(Hd & Mt, Sr, -1).max(1)
@@ -223,11 +322,11 @@ def run(seed, **kw):
             if reactive:
                 bs = np.full(N, -1.0)
                 for u in np.flatnonzero(act & (own < 0) & (d2d < 0)):
-                    if _react(rc, rf, sidx[u], int(req[u]), p):
+                    if _react(rc, rf, 0 if shared else sidx[u], int(req[u]), p):
                         bs[u] = 1.0
                 Hb = np.zeros((B, F), bool)
                 for b in range(B):
-                    Hb[b, rc[b]] = True
+                    Hb[b, rc[0] if shared else rc[b]] = True
                 anyb = Hb.any(0)
             else:
                 bs = np.where(Hb[sidx] & Mt, Sr, -1).max(1)
@@ -246,14 +345,38 @@ def run(seed, **kw):
             for k in range(5):
                 acc[k] += ((tier == k) & act).sum()
             acc[5] += fid[act].sum()
+            hitm = act & (tier < 4)
+            if hitm.any():
+                if reactive:                      # reactive caches are exact (tau = 1)
+                    kinds[0] += hitm.sum()
+                else:
+                    Ht = [Hd, reach, Hb[sidx], np.broadcast_to(anyb, Hd.shape)]
+                    for u in np.flatnonzero(hitm):
+                        k = tier[u]
+                        m = Ht[k][u] & Mt[u]
+                        j = int(np.argmax(np.where(m, Sr[u], -2.0)))
+                        if j == req[u]:
+                            kinds[0] += 1
+                        elif cls[j] == cls[req[u]]:
+                            kinds[1] += 1
+                        else:
+                            kinds[2] += 1
             acc[6] += lat[part & act].sum()
             acc[7] += lat[~part & act].sum()
             n_part += (part & act).sum()
             n_non += (~part & act).sum()
             nreq += act.sum()
         hist.append(cnt)
-        drift = np.flatnonzero(rng.random(F) < p['drift'])
-        rk[drift] = rng.permutation(rk[drift])
+        histb.append(cntb)
+        if p['est'] in ('lfua', 'tlfu'):
+            rf *= 0.5
+        if p['class_corr']:
+            mv = np.flatnonzero(rng.random(p['K']) < p['drift'])
+            crank[mv] = crank[mv][rng.permutation(len(mv))]
+            rk = crank[cls] * (F // p['K']) + within
+        else:
+            drift = np.flatnonzero(rng.random(F) < p['drift'])
+            rk[drift] = rng.permutation(rk[drift])
     own, d2d, bs, ibs, miss = acc[:5] / nreq
     hits = nreq - acc[4]
     epochs = E - p['warm']
@@ -262,7 +385,7 @@ def run(seed, **kw):
     latall = (acc[6] + acc[7]) / nreq
     return np.array([own, d2d, bs, ibs, miss, acc[5] / max(hits, 1), latall,
                      acc[6] / max(n_part, 1), acc[7] / max(n_non, 1) if n_non else np.nan,
-                     sp, pay, 1 - miss, part.sum()])
+                     sp, pay, 1 - miss, part.sum()] + list(kinds / nreq))
 
 
 def _job(a):

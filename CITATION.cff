@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the survey and this software."
+title: "Unified Caching Model (UCM) simulator for 'From Classical to Semantic Caching: A Survey of Wireless Edge Caching'"
+authors:
+  - family-names: Hosny
+    given-names: Sameh
+    orcid: "https://orcid.org/0000-0002-1672-7250"
+    affiliation: "American University of Armenia"
+  - family-names: Tadrous
+    given-names: John
+license: MIT
+repository-code: "https://github.com/sshawky78AUA/semantic-edge-caching-survey"
+version: "2.0.0"
+date-released: "2026-11-22"
+keywords: [edge caching, semantic caching, proactive caching, D2D, simulation]

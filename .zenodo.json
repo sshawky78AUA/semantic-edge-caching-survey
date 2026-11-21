@@ -1,0 +1,24 @@
+{
+  "title": "Unified Caching Model (UCM) simulator and results for a survey of wireless edge caching",
+  "upload_type": "software",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Hosny, Sameh",
+      "orcid": "0000-0002-1672-7250",
+      "affiliation": "American University of Armenia"
+    },
+    {
+      "name": "Tadrous, John"
+    }
+  ],
+  "description": "Python simulator of the unified caching model (UCM), the seeded raw results of every experiment, and the scripts that regenerate the figures of Section IX of 'From Classical to Semantic Caching: A Survey of Wireless Edge Caching'.",
+  "keywords": [
+    "edge caching",
+    "semantic caching",
+    "proactive caching",
+    "device-to-device",
+    "simulation"
+  ],
+  "version": "2.0.0"
+}
