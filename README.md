@@ -20,8 +20,11 @@ Section II of the paper defines the model, and Section IX reports the experiment
 | `sim/ucm.py` | The simulator: one seeded run of the UCM returns tier shares, hit ratio, latency, fidelity, and SP cost |
 | `sim/experiments2.py` | Experiments E1 to E5, E1r, and the closed-form validation (30 seeded runs per point) |
 | `sim/experiments3.py`, `sim/experiments4.py` | Control experiments added in the revision (pooling, aged and admission-based reactive caches, temporal locality, reward robustness, wrong-reuse accounting, trajectory contacts, interaction sensitivity) |
+| `sim/experiments5.py` | V5 controls: E5b (factorial with EWMA as the low level of the time factor) and E2f (reward grid of step 0.05) |
+| `sim/realdata.py` | V5 checks on public data: MovieTweetings request-trace replay and STS Benchmark similarity-versus-meaning curve (download commands in the file header; data are not redistributed) |
+| `review/cited_works.csv` | Every cited work with year, venue, preprint flag, and the sections and axes where it is reviewed |
 | `sim/figs2.py` | Builds the figures of Section IX from the stored results |
-| `sim/res2_*.json`, `sim/res3_*.json`, `sim/res4_*.json` | Raw per-run results for every point, with means and 95% confidence intervals |
+| `sim/res2_*.json` to `sim/res5_*.json` | Raw per-run results for every point, with means and 95% confidence intervals |
 | `sim/SIMULATION_PLAN.md` | Design and parameter grounding of the experiments |
 | `figs/` | The figures of Section IX (vector PDF) |
 
@@ -41,6 +44,8 @@ Section II of the paper defines the model, and Section IX reports the experiment
 | E2r | RQ2 controls | Cost-minimizing reward under Beta cost laws, reward scale, and skew, with bootstrap intervals |
 | E3t | RQ3 control | Trajectory-based contact rule (`contact='traj'`) |
 | E4s | RQ4 control | Exact / same-class / wrong-class hits; semantic index slots (`idx_slots`) |
+| E5b, E2f | V5 controls | EWMA low level in the factorial; fine reward grid for the cost-minimizing reward |
+| trace, sts | Public data | One-cache replay of 921,398 timestamped requests; similarity threshold against human ratings on 1,379 sentence pairs |
 | E5s, E5sb, E5t | RQ5 controls | Semantic x coordination contrast under changed K, Cb, class-correlated and cell-specific popularity; factorial at tau = 0.8 and 0.9 |
 
 ## Reproduce
