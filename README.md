@@ -22,7 +22,9 @@ Section II of the paper defines the model, and Section IX reports the experiment
 | `sim/experiments3.py`, `sim/experiments4.py` | Control experiments added in the revision (pooling, aged and admission-based reactive caches, temporal locality, reward robustness, wrong-reuse accounting, trajectory contacts, interaction sensitivity) |
 | `sim/experiments5.py` | V5 controls: E5b (factorial with EWMA as the low level of the time factor) and E2f (reward grid of step 0.05) |
 | `sim/realdata.py` | V5 checks on public data: MovieTweetings request-trace replay and STS Benchmark similarity-versus-meaning curve (download commands in the file header; data are not redistributed) |
-| `review/cited_works.csv` | Every cited work with year, venue, preprint flag, and the sections and axes where it is reviewed |
+| `sim/experiments6.py` | V6: E6r, the semantic x coordination interaction versus r = B*Cb/K (20 seeds per point) |
+| `sim/figs6.py` | Builds Fig. 6 of the V6 article from `res6_sts.json` and `res6_e6r_summary.json` |
+| `review/cited_works.csv` | Every cited work with year, venue, preprint flag, the article sections that cite it, and its code for the synthesis of Section VIII (main axis, axes T/P/L/M/R, evidence A/S/D/X/N); surveys, data sets, and general techniques are marked as not coded |
 | `sim/figs2.py` | Builds the figures of Section IX from the stored results |
 | `sim/res2_*.json` to `sim/res5_*.json` | Raw per-run results for every point, with means and 95% confidence intervals |
 | `sim/SIMULATION_PLAN.md` | Design and parameter grounding of the experiments |
@@ -46,6 +48,7 @@ Section II of the paper defines the model, and Section IX reports the experiment
 | E4s | RQ4 control | Exact / same-class / wrong-class hits; semantic index slots (`idx_slots`) |
 | E5b, E2f | V5 controls | EWMA low level in the factorial; fine reward grid for the cost-minimizing reward |
 | trace, sts | Public data | One-cache replay of 921,398 timestamped requests; similarity threshold against human ratings on 1,379 sentence pairs |
+| E6r, sts2 | V6 | Interaction versus storage per semantic class r; similarity versus meaning for three encoders on STS-B and a Quora duplicate-question sample |
 | E5s, E5sb, E5t | RQ5 controls | Semantic x coordination contrast under changed K, Cb, class-correlated and cell-specific popularity; factorial at tau = 0.8 and 0.9 |
 
 ## Reproduce
@@ -65,3 +68,11 @@ Seeds 0 to 29 are reused across the compared policies (common random numbers), s
 ## License
 
 Code: MIT (see `LICENSE`). Results and figures: CC BY 4.0.
+
+## Data and encoders for the V6 checks (`realdata.py sts2`)
+
+Data are not redistributed. Besides the files listed in the header of `sim/realdata.py`:
+
+- `data/qqp_dev_sample.tsv`: a 1,999-pair sample of the GLUE QQP development set (columns id, qid1, qid2, question1, question2, is_duplicate), from a public copy in Microsoft's NeuronBlocks repository (md5 4a25960ed86e6188213be0b44e2088dd).
+- `data/quora_first1000.csv`: the first 1,000 rows of the Quora question-pairs data with columns question1_en, question2_en, is_duplicate, from a public English-French copy. After removing duplicate pairs the two files give 2,995 pairs.
+- Encoders: `sentence-transformers/all-MiniLM-L6-v2` and `sentence-transformers/all-mpnet-base-v2`. Hugging Face was not reachable from our build machine, so we loaded the weights from GitHub mirrors (henrytanner52/all-MiniLM-L6-v2 at f92edf0, homer6/all-mpnet-base-v2 at bd44305) and checked them by reproducing the published STS-B Spearman correlations (0.82 and 0.83). Set `MINILM` and `MPNET` to the local model folders. Loading the models from Hugging Face gives the same weights.

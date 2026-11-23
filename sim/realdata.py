@@ -133,5 +133,66 @@ def sts():
     json.dump(out, open('res5_sts.json', 'w'), indent=1)
 
 
+def _pairs():
+    """Labelled pairs: STS-B test (same meaning = gold >= 4) and a Quora duplicate-question sample."""
+    sts = [(r[0], r[1], float(r[2]) >= 4.0, float(r[2])) for r in csv.reader(open(DATA + 'stsb-en-test.csv'))]
+    qqp, seen = [], set()
+    for r in csv.reader(open(DATA + 'qqp_dev_sample.tsv'), delimiter='\t'):
+        if r[0] == 'id' or len(r) < 6: continue
+        if (r[3], r[4]) in seen: continue
+        seen.add((r[3], r[4])); qqp.append((r[3], r[4], r[5].strip() == '1', None))
+    for r in csv.DictReader(open(DATA + 'quora_first1000.csv')):
+        k = (r['question1_en'], r['question2_en'])
+        if k in seen: continue
+        seen.add(k); qqp.append((k[0], k[1], r['is_duplicate'].strip() == '1', None))
+    return dict(stsb=sts, qqp=qqp)
+
+
+def _auc(score, y):
+    o = np.argsort(score); r = np.empty(len(score)); r[o] = np.arange(1, len(score) + 1)
+    p = y.sum(); n = len(y) - p
+    return float((r[y].sum() - p * (p + 1) / 2) / (p * n))
+
+
+def sts2():
+    """Similarity versus meaning for three encoders: averaged spaCy word vectors, all-MiniLM-L6-v2, all-mpnet-base-v2.
+    The two sentence encoders are loaded from local copies (env MINILM, MPNET); see README for their source."""
+    import os
+    data = _pairs()
+    encs = {}
+    import spacy
+    nlp = spacy.load('en_core_web_md')
+    encs['spacy-avg'] = lambda xs: np.array([nlp(x).vector for x in xs])
+    from sentence_transformers import SentenceTransformer
+    for name, env in (('MiniLM-L6', 'MINILM'), ('MPNet-base', 'MPNET')):
+        m = SentenceTransformer(os.environ[env], device='cpu')
+        encs[name] = (lambda mm: (lambda xs: mm.encode(xs, batch_size=64, normalize_embeddings=True)))(m)
+    out = {}
+    for dn, pairs in data.items():
+        y = np.array([p[2] for p in pairs]); out[dn] = dict(n=len(pairs), share_same=float(y.mean()), enc={})
+        for en, f in encs.items():
+            a = f([p[0] for p in pairs]); b = f([p[1] for p in pairs])
+            na = np.linalg.norm(a, axis=1); nb = np.linalg.norm(b, axis=1)
+            sim = (a * b).sum(1) / np.maximum(na * nb, 1e-12)
+            res = dict(auc=_auc(sim, y), curve=[])
+            if dn == 'stsb':
+                g = np.array([p[3] for p in pairs])
+                res['spearman'] = float(np.corrcoef(np.argsort(np.argsort(sim)), np.argsort(np.argsort(g)))[0, 1])
+            for tau in (0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 0.97, 0.99):
+                sel = sim >= tau
+                res['curve'].append(dict(tau=tau, reuse=float(sel.mean()),
+                                         precision=float(y[sel].mean()) if sel.any() else None,
+                                         recall=float((sel & y).sum() / y.sum())))
+            # smallest threshold that reaches 90% precision (a calibrated threshold)
+            order = np.argsort(-sim); cum = np.cumsum(y[order]) / np.arange(1, len(y) + 1)
+            ok = np.where(cum >= 0.9)[0]
+            if len(ok):
+                k = ok.max(); res['p90'] = dict(tau=float(sim[order][k]), reuse=float((k + 1) / len(y)),
+                                                recall=float(y[order][:k + 1].sum() / y.sum()))
+            out[dn]['enc'][en] = res
+            print(dn, en, {k: v for k, v in res.items() if k != 'curve'})
+    json.dump(out, open('res6_sts.json', 'w'), indent=1)
+
+
 if __name__ == '__main__':
-    {'trace': trace, 'sts': sts}[sys.argv[1]]()
+    {'trace': trace, 'sts': sts, 'sts2': sts2}[sys.argv[1]]()
