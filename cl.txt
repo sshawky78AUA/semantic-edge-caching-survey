@@ -1,0 +1,16 @@
+Dear Professor Niyato,
+
+We submit the manuscript "From Classical to Semantic Caching: A Survey of Content Caching at the Wireless Edge" by Sameh Hosny and John Tadrous for consideration as a survey article in IEEE Communications Surveys & Tutorials.
+
+The article surveys the literature on wireless edge caching from 2009 to November 2026. It organizes 149 cited works along four axes: when items are requested (time), who stores and shares content (people), where users move (place), and what counts as a hit (meaning), with the resources of the cache controller as a cross-cutting layer. Existing surveys cover these streams one at a time. Our main contribution is a cross-axis synthesis: we coded 112 primary works by the axes they model and their type of evidence, and for each pair of axes we report how many works study the coupling, what they find, and how strong the evidence is. A unified caching model restates representative formulations under explicit assumptions to illustrate selected couplings, with checks on a public request trace and two sentence-pair benchmarks. The article closes with guidelines that separate literature evidence from illustration and with open problems.
+
+The manuscript is 30 pages in double-column format. A supplement with derivations, the experiment design, control experiments, and the coding of all works is included. The code, data, and coding table are publicly available on GitHub.
+
+As stated in the acknowledgment, the authors used the large language model Claude (Anthropic) to draft and edit text, check bibliographic metadata, draft the codes of the reviewed works, and write the simulation and analysis code. The authors take full responsibility for all content.
+
+This manuscript is original, has not been published, and is not under consideration elsewhere. Both authors approved the submission.
+
+Sincerely,
+Sameh Hosny
+Department of Electrical and Computer Engineering, American University of Armenia
+sameh.hosny@aua.am
