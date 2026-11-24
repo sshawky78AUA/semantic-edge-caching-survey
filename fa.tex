@@ -1,0 +1,41 @@
+\begin{figure}[t]
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tikzpicture}[yscale=0.95, font=\scriptsize, >={Stealth[length=1.5mm]},
+  box/.style={draw=#1!65!black, fill=#1!8, rounded corners=2pt, align=center, inner sep=2pt},
+  cache/.style={draw=black!60, fill=yellow!35, minimum width=0.32cm, minimum height=0.18cm, inner sep=0pt},
+  dev/.style={draw=black!60, fill=white, rounded corners=1pt, minimum width=0.22cm, minimum height=0.36cm, inner sep=0pt},
+  lnk/.style={line width=0.5pt, black!60}, d2d/.style={densely dashed, line width=0.6pt, orange!80!black}]
+\node[box=gray, minimum width=2.6cm, minimum height=0.5cm] (core) at (0,3.15) {Core network and origin servers};
+\node[box=violet, minimum width=1.1cm] (sat) at (3.3,3.15) {LEO satellite};
+\node[cache, anchor=north east] at ($(sat.south east)+(0,-0.04)$) {};
+\node[box=violet, minimum width=0.8cm] (uav) at (3.3,1.75) {UAV};
+\node[cache, anchor=north east] at ($(uav.south east)+(0,-0.04)$) {};
+\node[box=blue, minimum width=1.3cm] (mbs) at (-2.3,1.75) {Macro BS};
+\node[cache, anchor=north east] at ($(mbs.south east)+(0,-0.04)$) {};
+\node[box=blue, minimum width=1.3cm] (sbs) at (0,1.75) {Small BS};
+\node[cache, anchor=north east] at ($(sbs.south east)+(0,-0.04)$) {};
+\node[box=blue, minimum width=0.9cm] (rsu) at (1.75,1.75) {RSU};
+\node[cache, anchor=north east] at ($(rsu.south east)+(0,-0.04)$) {};
+\draw[lnk] (core) -- node[left, pos=0.45, font=\tiny]{backhaul} (mbs);
+\draw[lnk] (core) -- (sbs); \draw[lnk] (core) -- (rsu); \draw[lnk, densely dotted] (core) -- (sat);
+\draw[lnk, densely dotted] (sat) -- (uav);
+\draw[lnk, <->] (mbs) -- node[above, font=\tiny]{inter-BS} (sbs);
+\foreach \x/\n in {-3.0/d1,-2.3/d2,-1.6/d3,-0.4/d4,0.4/d5}{\node[dev] (\n) at (\x,0.35) {};}
+\draw[d2d] (d1) -- node[above, font=\tiny, text=orange!80!black]{D2D} (d2);
+\draw[d2d] (d4) -- (d5);
+\foreach \n in {d1,d2,d3}{\draw[lnk, densely dotted] (mbs.south) -- (\n.north);}
+\foreach \n in {d4,d5}{\draw[lnk, densely dotted] (sbs.south) -- (\n.north);}
+\node[box=orange, minimum width=0.55cm, minimum height=0.26cm] (v1) at (1.45,0.35) {car};
+\node[box=orange, minimum width=0.55cm, minimum height=0.26cm] (v2) at (2.35,0.35) {car};
+\draw[->, line width=0.5pt, orange!70!black] (v1.south east) ++(0.1,-0.3) -- ++(1.4,0);
+\draw[lnk, densely dotted] (rsu.south) -- (v1.north); \draw[lnk, densely dotted] (uav.south) -- (v2.north);
+\draw[d2d] (v1) -- (v2);
+\foreach \n in {d1,d2,d4,d5}{\node[cache, minimum width=0.2cm, minimum height=0.12cm, anchor=north] at ($(\n.south)+(0,-0.03)$) {};}
+\foreach \n in {v1,v2}{\node[cache, minimum width=0.2cm, minimum height=0.12cm, anchor=north west] at ($(\n.south west)+(0,-0.03)$) {};}
+\node[cache, label={[font=\tiny]right:cache}] at (-3.2,-0.35) {};
+\draw[d2d] (-2.2,-0.35) -- (-1.8,-0.35) node[right, font=\tiny, text=black]{device-to-device or V2V link};
+\end{tikzpicture}}
+\caption{Where edge caches sit. A request is served by the nearest node with a usable copy: the device, a neighbor over D2D or V2V, a BS or RSU, another BS, an aerial or satellite node, or the core.}
+\label{fig:arch}
+\end{figure}
