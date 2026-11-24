@@ -295,15 +295,15 @@ def fig_e5():
 
     ax.annotate(f'worst {h.min():.3f}', (0, h.min()), (4, 0.33), fontsize=6.5, color=MUTED,
                 arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.5))
-    ax.annotate(f'best {h.max():.3f}', (25, h.max() - 0.02), (6, 0.955), fontsize=6.5, color=MUTED,
+    ax.annotate(f'best {h.max():.3f}', (25, h.max() - 0.02), (20.5, 0.86), fontsize=6.5, color=MUTED,
                 arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.5))
     ax.set_ylim(0.3, 1.0); ax.set_xticks([0, 15, 31]); ax.set_xticklabels(['1', '16', '32'])
     ax.set_xlabel('Design (sorted by $h$)'); ax.set_ylabel('Hit ratio $h$')
     ax.grid(axis='x', visible=False); tag(ax, '(c) All 32 designs')
     # ---- (d)-(f): interaction plots on h ----
-    specs = [(2, 4, 'Coordination', ['off', 'on'], 'Matching', ['exact', 'semantic'], '(d) Reinforce'),
-             (2, 1, 'Coordination', ['off', 'on'], 'Participation', ['30%', '100%'], '(e) Substitute'),
-             (0, 4, 'Prediction', ['last ep.', 'oracle'], 'Matching', ['exact', 'semantic'], '(f) Easier prediction')]
+    specs = [(2, 4, 'Coordination', ['off', 'on'], 'Matching', ['exact', 'semantic'], '(d) Coordination $\\times$ meaning'),
+             (2, 1, 'Coordination', ['off', 'on'], 'Participation', ['30%', '100%'], '(e) Coordination $\\times$ participation'),
+             (0, 4, 'Prediction', ['last ep.', 'oracle'], 'Matching', ['exact', 'semantic'], '(f) Prediction $\\times$ meaning')]
     for k, (fa, fb, na, la, nb, lb, ttl) in enumerate(specs):
         ax = axs[1, k]
         m, c = cell_means(r, 11, fa, fb)
@@ -322,7 +322,7 @@ def fig_e5():
     from matplotlib.patches import Patch
     legend_below(fig, [axa, axb], [Patch(color=SL[0]), Patch(color=SL[1])],
                  ['Main effect', 'Two-way interaction (top 4)'], ncol=2, row=axs[0])
-    legend_below(fig, axf, ncol=2, row=axs[0])
+    axf.legend(loc='upper left', fontsize=6, frameon=True, framealpha=0.95, edgecolor='none', handletextpad=0.3, borderpad=0.3, labelspacing=0.25)
     for k in range(3):
         legend_below(fig, axs[1, k], ncol=1, row=axs[1])
     fig.savefig(OUT + 'fig_e5_factorial.pdf'); plt.close(fig)

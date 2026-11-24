@@ -1,148 +1,150 @@
 key,year,title,venue,preprint,sections,coded,main_axis,axes,evidence
-nemhauser1978analysis,1978,An Analysis of Approximations for Maximizing Submodular Set Functions---I,Math. Program.,no,VI IX,"no (survey, tutorial, data set, or general technique)",,,
-dan1990approximate,1990,An Approximate Analysis of the LRU and FIFO Buffer Replacement Schemes,Proc. ACM SIGMETRICS,no,III,yes,T,T,A
-oneil1993lruk,1993,The LRU-K Page Replacement Algorithm for Database Disk Buffering,Proc. ACM SIGMOD Int. Conf. Manage. Data,no,III VII IX,yes,T,T,D
-dar1996semantic,1996,Semantic Data Caching and Replacement,Proc. 22nd Int. Conf. Very Large Data Bases (VLDB),no,VI,yes,M,TM,S
-breslau1999zipf,1999,Web Caching and Zipf-Like Distributions: Evidence and Implications,Proc. IEEE INFOCOM,no,IX,yes,T,T,"A,D"
-che2002hierarchical,2002,"Hierarchical Web Caching Systems: Modeling, Design and Experimental Results",IEEE J. Sel. Areas Commun.,no,II III IX X,yes,T,T,"A,D"
-megiddo2003arc,2003,"ARC: A Self-Tuning, Low Overhead Replacement Cache",Proc. USENIX Conf. File Storage Technol. (FAST),no,II III VII IX,yes,T,T,D
-cormode2005countmin,2005,An Improved Data Stream Summary: The Count-Min Sketch and Its Applications,J. Algorithms,no,II VII VIII IX,"no (survey, tutorial, data set, or general technique)",,,
-metwally2005spacesaving,2005,Efficient Computation of Frequent and Top-$k$ Elements in Data Streams,Proc. Int. Conf. Database Theory (ICDT),no,II VII IX,"no (survey, tutorial, data set, or general technique)",,,
-nain2005random,2005,Properties of Random Direction Models,Proc. IEEE INFOCOM,no,V,"no (survey, tutorial, data set, or general technique)",,,
-falchi2008metric,2008,A Metric Cache for Similarity Search,Proc. ACM Workshop Large-Scale Distrib. Syst. Inf. Retrieval (LSDS-IR),no,VI,yes,M,M,X
-chierichetti2009similarity,2009,Similarity Caching,Proc. ACM SIGMOD-SIGACT-SIGART Symp. Principles Database Syst. (PODS),no,I II VI,yes,M,M,A
-fricker2012versatile,2012,A Versatile and Accurate Approximation for LRU Cache Performance,Proc. 24th Int. Teletraffic Congr. (ITC),no,III,yes,T,T,A
-dooms2013movietweetings,2013,MovieTweetings: A Movie Rating Dataset Collected From Twitter,Proc. Workshop Crowdsourcing Human Comput. Recommender Syst. (CrowdRec) at ACM RecSys,no,I X,"no (survey, tutorial, data set, or general technique)",,,
-golrezaei2013femtocaching,2013,Femtocaching and Device-to-Device Collaboration: A New Architecture for Wireless Video Distribution,IEEE Commun. Mag.,no,I II IV V IX,yes,P,PL,S
-shanmugam2013femtocaching,2013,FemtoCaching: Wireless Content Delivery Through Distributed Caching Helpers,IEEE Trans. Inf. Theory,no,I II III IV IX XI,yes,P,P,A
-tadrous2013diversity,2013,Proactive Resource Allocation: Harnessing the Diversity and Multicast Gains,IEEE Trans. Inf. Theory,no,I,yes,T,T,A
-traverso2013temporal,2013,Temporal Locality in Today's Content Caching: Why It Matters and How to Model It,ACM SIGCOMM Comput. Commun. Rev.,no,III IX,yes,T,T,"A,D"
-bastug2014living,2014,Living on the Edge: The Role of Proactive Caching in 5G Wireless Networks,IEEE Commun. Mag.,no,I II III IV VIII IX,yes,T,TP,S
-blasco2014learning,2014,Learning-Based Optimization of Cache Content in a Small Cell Base Station,Proc. IEEE ICC,no,II III XI,yes,T,T,S
-fofack2014ttl,2014,Performance Evaluation of Hierarchical TTL-Based Cache Networks,Comput. Netw.,no,III,yes,T,T,A
-hamidouche2014matching,2014,Many-to-Many Matching Games for Proactive Social-Caching in Wireless Small Cell Networks,"Proc. Int. Symp. Model. Optim. Mobile, Ad Hoc, Wireless Netw. (WiOpt)",no,II IV,yes,P,TP,S
-maddahali2014fundamental,2014,Fundamental Limits of Caching,IEEE Trans. Inf. Theory,no,I II III IX,yes,P,P,A
-martina2014unified,2014,A Unified Approach to the Performance Analysis of Caching Systems,Proc. IEEE INFOCOM,no,III IX,yes,T,T,A
-alotaibi2015game,2015,A Game Theoretic Approach to Content Trading in Proactive Wireless Networks,Proc. IEEE Int. Symp. Inf. Theory (ISIT),no,II IV VIII,yes,P,TP,A
-blaszczyszyn2015geographic,2015,Optimal Geographic Caching in Cellular Networks,Proc. IEEE ICC,no,V,yes,L,PL,A
-hosny2015marketplace,2015,Towards a Mobile Content Marketplace,Proc. IEEE Int. Workshop Signal Process. Adv. Wireless Commun. (SPAWC),no,II IV,yes,P,TP,A
-tadrous2015proactive,2015,Proactive Content Download and User Demand Shaping for Data Networks,IEEE/ACM Trans. Netw.,no,II III IV VIII IX,yes,T,TP,A
-chen2016d2dstackelberg,2016,Caching Incentive Design in Wireless D2D Networks: A Stackelberg Game Approach,Proc. IEEE ICC,no,I II IV IX,yes,P,PL,"A,S"
-hamidouche2016contracts,2016,Breaking the Economic Barrier of Caching in Cellular Networks: Incentives and Contracts,Proc. IEEE GLOBECOM,no,I II IV IX,yes,P,P,"A,S"
-hosny2016centralized,2016,Mobility-Aware Centralized D2D Caching Networks,"Proc. Allerton Conf. Commun., Control, Comput.",no,I II V VIII,yes,L,PL,A
-hosny2016impact,2016,Impact of User Mobility on D2D Caching Networks,Proc. IEEE GLOBECOM,no,I II V IX,yes,L,PL,A
-ji2016fundamental,2016,Fundamental Limits of Caching in Wireless D2D Networks,IEEE Trans. Inf. Theory,no,I II III IV V IX,yes,P,PL,A
-leconte2016placing,2016,Placing Dynamic Content in Caches with Small Population,Proc. IEEE INFOCOM,no,I III IX,yes,T,TP,"A,S"
-poularakis2016multicast,2016,Exploiting Caching and Multicast for 5G Wireless Networks,IEEE Trans. Wireless Commun.,no,II IV XI,yes,P,TP,"A,S"
-shen2016stackelberg,2016,A Stackelberg Game for Incentive Proactive Caching Mechanisms in Wireless Networks,Proc. IEEE GLOBECOM,no,I II IV IX,yes,P,P,A
-tadrous2016optimal,2016,On Optimal Proactive Caching for Mobile Networks With Demand Uncertainties,IEEE/ACM Trans. Netw.,no,III,yes,T,T,A
-tadrous2016pricing,2016,Joint Smart Pricing and Proactive Content Caching for Mobile Services,IEEE/ACM Trans. Netw.,no,I IV,yes,P,TP,A
-cer2017sts,2017,SemEval-2017 Task 1: Semantic Textual Similarity Multilingual and Crosslingual Focused Evaluation,Proc. 11th Int. Workshop Semantic Eval. (SemEval),no,I X,"no (survey, tutorial, data set, or general technique)",,,
-chen2017echo,2017,Echo State Networks for Proactive Caching in Cloud-Based Radio Access Networks With Mobile Users,IEEE Trans. Wireless Commun.,no,II III V VIII,yes,T,TL,S
-chen2017probabilistic,2017,Probabilistic Caching in Wireless D2D Networks: Cache Hit Optimal Versus Throughput Optimal,IEEE Commun. Lett.,no,V,yes,L,PL,A
-chen2017uav,2017,Caching in the Sky: Proactive Deployment of Cache-Enabled Unmanned Aerial Vehicles for Optimized Quality-of-Experience,IEEE J. Sel. Areas Commun.,no,XII,yes,L,TL,S
-drolia2017cachier,2017,Cachier: Edge-Caching for Recognition Applications,Proc. IEEE Int. Conf. Distrib. Comput. Syst. (ICDCS),no,VI VIII,yes,M,MR,"D,X"
-drolia2017precog,2017,Precog: Prefetching for Image Recognition Applications at the Edge,Proc. ACM/IEEE Symp. Edge Comput. (SEC),no,VI VIII,yes,M,TLM,"D,X"
-einziger2017tinylfu,2017,TinyLFU: A Highly Efficient Cache Admission Policy,ACM Trans. Storage,no,II III VII VIII IX XI,yes,T,TR,"A,D"
-kam2017freshness,2017,Information Freshness and Popularity in Mobile Caching,Proc. IEEE Int. Symp. Inf. Theory (ISIT),no,III XII,yes,T,T,A
-muller2017context,2017,Context-Aware Proactive Content Caching With Service Differentiation in Wireless Networks,IEEE Trans. Wireless Commun.,no,II III VIII IX XI XII,yes,T,T,"A,D"
-vural2017transient,2017,Caching Transient Data in Internet Content Routers,IEEE/ACM Trans. Netw.,no,VII VIII,yes,R,TR,"A,S"
-wang2017mobility,2017,Mobility-Aware Caching in D2D Networks,IEEE Trans. Wireless Commun.,no,II V VIII X XI,yes,L,PL,"A,D"
-yates2017ageoptimal,2017,Age-Optimal Constrained Cache Updating,Proc. IEEE Int. Symp. Inf. Theory (ISIT),no,II III XII,yes,T,T,A
-gabr2018content,2018,Content Delivery in Mobility-Aware D2D Caching Networks,Proc. IEEE GLOBECOM Workshops,no,IV V,yes,P,PL,A
-guo2018foggycache,2018,FoggyCache: Cross-Device Approximate Computation Reuse,Proc. ACM MobiCom,no,VI VIII X XI,yes,M,PLMR,X
-guo2018potluck,2018,Potluck: Cross-Application Approximate Deduplication for Computation-Intensive Mobile Applications,Proc. ACM ASPLOS,no,VI VIII,yes,M,MR,X
-jacob2018quantization,2018,Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference,Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR),no,II VII XI,"no (survey, tutorial, data set, or general technique)",,,
-li2018cellularsurvey,2018,A Survey of Caching Techniques in Cellular Networks: Research Issues and Challenges in Content Placement and Delivery Strategies,IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
-parvez2018latency,2018,"A Survey on Low Latency Towards 5G: RAN, Core Network and Caching Solutions",IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
-paschos2018role,2018,The Role of Caching in Future Communication Systems and Networks,IEEE J. Sel. Areas Commun.,no,I IV IX,"no (survey, tutorial, data set, or general technique)",,,
-sadeghi2018optimal,2018,Optimal and Scalable Caching for 5G Using Reinforcement Learning of Space-Time Popularities,IEEE J. Sel. Topics Signal Process.,no,II III VIII XII,yes,T,T,S
-sermpezis2018soft,2018,Soft Cache Hits: Improving Performance Through Recommendation and Delivery of Related Content,IEEE J. Sel. Areas Commun.,no,II VI VIII IX,yes,M,M,"A,D"
-tadrous2018improving,2018,On Optimal Proactive Caching with Improving Predictions over Time,"Proc. Allerton Conf. Commun., Control, Comput.",no,III,yes,T,T,A
-tan2018vehicle,2018,Mobility-Aware Edge Caching and Computing in Vehicle Networks: A Deep Reinforcement Learning,IEEE Trans. Veh. Technol.,no,V,yes,L,TLR,S
-wang2018exploiting,2018,Exploiting Mobility in Cache-Assisted D2D Networks: Performance Analysis and Optimization,IEEE Trans. Wireless Commun.,no,II V X XI,yes,L,PL,"A,D"
-wang2018ncc,2018,"Integration of Networking, Caching, and Computing in Wireless Systems: A Survey, Some Research Issues, and Challenges",IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
-xu2018service,2018,Joint Service Caching and Task Offloading for Mobile Edge Computing in Dense Networks,Proc. IEEE INFOCOM,no,VII VIII XI,yes,R,TPR,"A,S"
-yu2018federated,2018,Federated Learning Based Proactive Content Caching in Edge Computing,Proc. IEEE GLOBECOM,no,II III VIII,yes,T,TP,D
-zhong2018drl,2018,A Deep Reinforcement Learning-Based Framework for Content Caching,Proc. Annu. Conf. Inf. Sci. Syst. (CISS),no,I II III,yes,T,T,S
-alnagar2019city,2019,Proactive Caching for Vehicular Ad Hoc Networks Using the City Model,Proc. IEEE WCNC Workshops,no,I II V,yes,L,TPL,"A,S"
-chatzieleftheriou2019joint,2019,Jointly Optimizing Content Caching and Recommendations in Small Cell Networks,IEEE Trans. Mobile Comput.,no,III VI VIII,yes,M,M,"A,S"
-dehghan2019utility,2019,A Utility Optimization Approach to Network Cache Design,IEEE/ACM Trans. Netw.,no,III,yes,T,T,A
-gabr2019social,2019,Social-Aware Content Delivery in Low Latency D2D Caching Networks,Proc. IEEE GLOBECOM Workshops,no,IV V VIII,yes,P,PL,A
-luong2017economic,2019,Applications of Economic and Pricing Models for Resource Management in 5G Wireless Networks: A Survey,IEEE Commun. Surveys Tuts.,no,I IV,"no (survey, tutorial, data set, or general technique)",,,
-paschos2019noregret,2019,Learning to Cache With No Regrets,Proc. IEEE INFOCOM,no,III XI XII,yes,T,T,"A,D"
-poularakis2019service,2019,Joint Service Placement and Request Routing in Multi-Cell Mobile Edge Computing Networks,Proc. IEEE INFOCOM,no,VII VIII XI,yes,R,PR,"A,S"
-yao2019mec,2019,On Mobile Edge Caching,IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
-zhu2019transient,2019,Caching Transient Data for Internet of Things: A Deep Reinforcement Learning Approach,IEEE Internet Things J.,no,VII,yes,R,TR,S
-bhattacharjee2020regret,2020,Fundamental Limits on the Regret of Online Network-Caching,Proc. ACM Meas. Anal. Comput. Syst.,no,III,yes,T,T,"A,D"
-garetto2020similarity,2020,Similarity Caching: Theory and Algorithms,Proc. IEEE INFOCOM,no,II VI VIII XII,yes,M,TM,"A,D"
-lin2020mcunet,2020,MCUNet: Tiny Deep Learning on IoT Devices,Proc. Adv. Neural Inf. Process. Syst. (NeurIPS),no,II VII,"no (survey, tutorial, data set, or general technique)",,,
-ozfatura2020mobility,2020,Mobility-Aware Coded Storage and Delivery,IEEE Trans. Commun.,no,V,yes,L,L,A
-qiao2020drl,2020,Deep Reinforcement Learning for Cooperative Content Caching in Vehicular Edge Computing and Networks,IEEE Internet Things J.,no,II IV V VIII,yes,P,TPL,S
-song2020lrb,2020,Learning Relaxed Belady for Content Distribution Network Caching,Proc. USENIX Symp. Netw. Syst. Design Implement. (NSDI),no,III IX,yes,T,T,D
-wang2020dlcaching,2020,A Survey of Deep Learning for Data Caching in Edge Network,Informatics,no,I III IX,"no (survey, tutorial, data set, or general technique)",,,
-bastopcu2021freshness,2021,Information Freshness in Cache Updating Systems,IEEE Trans. Wireless Commun.,no,III XII,yes,T,T,A
-david2021tflm,2021,TensorFlow Lite Micro: Embedded Machine Learning for TinyML Systems,Proc. Mach. Learn. Syst. (MLSys),no,VII,"no (survey, tutorial, data set, or general technique)",,,
-dziyauddin2021vec,2021,Computation Offloading and Content Caching and Delivery in Vehicular Edge Network: A Survey,Computer Networks,no,I V,"no (survey, tutorial, data set, or general technique)",,,
-garetto2021network,2021,Content Placement in Networks of Similarity Caches,Comput. Netw.,no,VI,yes,M,M,"A,D"
-jedari2021video,2021,"Video Caching, Analytics, and Delivery at the Wireless Edge: A Survey and Future Directions",IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
-li2021evolutionary,2021,Incentivizing Mobile Edge Caching and Sharing: An Evolutionary Game Approach,Proc. IEEE GLOBECOM,no,II IV VIII,yes,P,PL,"A,S"
-paria2021leadcache,2021,LeadCache: Regret-Optimal Caching in Networks,Proc. Adv. Neural Inf. Process. Syst. (NeurIPS),no,III XI XII,yes,T,T,"A,D"
-sisalem2021acai,2021,Proc. 33rd Int. Teletraffic Congr. (ITC),Proc. 33rd Int. Teletraffic Congr. (ITC),no,VI VIII,yes,M,TM,"A,D"
-strinati2021beyond,2021,6G Networks: Beyond Shannon Towards Semantic and Goal-Oriented Communications,Comput. Netw.,no,I VI,"no (survey, tutorial, data set, or general technique)",,,
-wei2021sapoc,2021,Wireless Edge Caching Based on Content Similarity in Dynamic Environments,J. Syst. Archit.,no,VI,yes,M,TM,S
-xie2021deepsc,2021,Deep Learning Enabled Semantic Communication Systems,IEEE Trans. Signal Process.,no,II VI,"no (survey, tutorial, data set, or general technique)",,,
-yates2021aoi,2021,Age of Information: An Introduction and Survey,IEEE J. Sel. Areas Commun.,no,III,"no (survey, tutorial, data set, or general technique)",,,
-yu2021mpcf,2021,Mobility-Aware Proactive Edge Caching for Connected Vehicles Using Federated Learning,IEEE Trans. Intell. Transp. Syst.,no,III VIII,yes,T,TPL,S
-zhang2021aoi,2021,AoI-Delay Tradeoff in Mobile Edge Caching With Freshness-Aware Content Refreshing,IEEE Trans. Wireless Commun.,no,III,yes,T,T,"A,S"
-zhou2021idqnm,2021,Incentive-Driven Deep Reinforcement Learning for Content Caching and D2D Offloading,IEEE J. Sel. Areas Commun.,no,IV VIII,yes,P,TPL,D
-abolhassani2022fresh,2022,Fresh Caching of Dynamic Content Over the Wireless Edge,IEEE/ACM Trans. Netw.,no,III XII,yes,T,T,A
-abolhassani2022single,2022,Single vs Distributed Edge Caching for Dynamic Content,IEEE/ACM Trans. Netw.,no,IV,yes,P,TP,"A,S"
-alnagar2022ojvt,2022,Mobility-Aware Edge Caching for Minimizing Latency in Vehicular Networks,IEEE Open J. Veh. Technol.,no,I IV V VIII XI,yes,L,TPL,"A,S"
-nomikos2021rl,2022,A Survey on Reinforcement Learning-Aided Caching in Heterogeneous Mobile Edge Networks,IEEE Access,no,I III V,"no (survey, tutorial, data set, or general technique)",,,
-song2022auction,2022,Incentivizing Online Edge Caching via Auction-Based Subsidization,"Proc. IEEE Int. Conf. Sens., Commun., Netw. (SECON)",no,IV,yes,P,TP,"A,S"
-zheng2022urfl,2022,Unsupervised Recurrent Federated Learning for Edge Popularity Prediction in Privacy-Preserving Mobile-Edge Computing Networks,IEEE Internet Things J.,no,III VIII,yes,T,TP,S
-zhu2022satellite,2022,Cooperative Multilayer Edge Caching in Integrated Satellite-Terrestrial Networks,IEEE Trans. Wireless Commun.,no,V XII,yes,L,PL,"A,S"
-araf2023uav,2023,UAV Assisted Cooperative Caching on Network Edge Using Multi-Agent Actor-Critic Reinforcement Learning,IEEE Trans. Veh. Technol.,no,V VIII XII,yes,L,TPL,S
-bang2023gptcache,2023,GPTCache: An Open-Source Semantic Cache for LLM Applications Enabling Faster Answers and Cost Savings,Proc. 3rd Workshop NLP Open Source Softw. (NLP-OSS),no,II VI XII,yes,M,M,X
-bepari2023noma,2023,A Survey on Applications of Cache-Aided NOMA,IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
-gunduz2023beyond,2023,"Beyond Transmitting Bits: Context, Semantics, and Task-Oriented Communications",IEEE J. Sel. Areas Commun.,no,I II VI XII,"no (survey, tutorial, data set, or general technique)",,,
-hao2023leomec,2023,"Joint Communication, Computing, and Caching Resource Allocation in LEO Satellite MEC Networks",IEEE Access,no,V XII,yes,L,LR,S
-maher2023dlce,2023,A Cache-Enabled Device-to-Device Approach Based on Deep Learning,IEEE Access,no,I II III VII VIII,yes,T,TP,D
-mhaisen2023optimistic,2023,Optimistic No-regret Algorithms for Discrete Caching,SIGMETRICS Perform. Eval. Rev.,no,III,yes,T,T,"A,D"
-sabnis2023grades,2023,GRADES: Gradient Descent for Similarity Caching,IEEE/ACM Trans. Netw.,no,VI VIII,yes,M,TM,"A,D"
-wang2023blockchain,2023,Incentive-Aware Blockchain-Assisted Intelligent Edge Caching and Computation Offloading for IoT,Engineering,no,IV,yes,P,TPR,S
-xu2023foundation,2023,Joint Foundation Model Caching and Inference of Generative AI Services for Edge Intelligence,Proc. IEEE GLOBECOM,no,VII XII,yes,M,MR,S
-xu2023kesc,2023,Knowledge-Enhanced Semantic Communication System with OFDM Transmissions,Sci. China Inf. Sci.,no,VI XII,yes,M,PM,S
-xu2023metaverse,2023,"A Full Dive Into Realizing the Edge-Enabled Metaverse: Visions, Enabling Technologies, and Challenges",IEEE Commun. Surveys Tuts.,no,XII,"no (survey, tutorial, data set, or general technique)",,,
-yang2023semcom,2023,"Semantic Communications for Future Internet: Fundamentals, Applications, and Challenges",IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
-yu2023semcache,2023,"Semantic Communications, Semantic Edge Computing, and Semantic Caching",arXiv preprint arXiv:2304.08096,yes,I II VI VIII IX,yes,M,MR,N
-zhou2023iovmarl,2023,Distributed Deep Multi-Agent Reinforcement Learning for Cooperative Edge Caching in Internet-of-Vehicles,IEEE Trans. Wireless Commun.,no,V VIII,yes,L,TPL,S
-capogrosso2024tinyml,2024,A Machine Learning-Oriented Survey on Tiny Machine Learning,IEEE Access,no,I II,"no (survey, tutorial, data set, or general technique)",,,
-gim2024promptcache,2024,Prompt Cache: Modular Attention Reuse for Low-Latency Inference,Proc. Mach. Learn. Syst. (MLSys),no,VI,yes,M,MR,X
-khan2024mec,2024,Content Caching in Mobile Edge Computing: A Survey,Cluster Comput.,no,I,"no (survey, tutorial, data set, or general technique)",,,
-li2024caching_sky,2024,Caching on the Sky: A Multiagent Federated Reinforcement Learning Approach for UAV-Assisted Edge Caching,IEEE Internet Things J.,no,V VIII XII,yes,L,TPL,S
-li2024edgesurvey,2024,A Survey of Edge Caching: Key Issues and Challenges,Tsinghua Sci. Technol.,no,I,"no (survey, tutorial, data set, or general technique)",,,
-li2024scalm,2024,SCALM: Towards Semantic Caching for Automated Chat Services with Large Language Models,arXiv preprint arXiv:2406.00025,yes,II VI XI XII,yes,M,M,X
-liu2024cachegen,2024,CacheGen: KV Cache Compression and Streaming for Fast Large Language Model Serving,Proc. ACM SIGCOMM,no,VI,yes,M,MR,X
-qu2024trimcaching,2024,TrimCaching: Parameter-Sharing AI Model Caching in Wireless Edge Networks,Proc. IEEE Int. Conf. Distrib. Comput. Syst. (ICDCS),no,VII,yes,M,PMR,"A,S"
-regmi2024gptsemcache,2024,GPT Semantic Cache: Reducing LLM Costs and Latency via Semantic Embedding Caching,arXiv preprint arXiv:2411.05276,yes,VI XII,yes,M,M,X
-wang2024uaviov,2024,UAV-Assisted Content Caching for Human-Centric Consumer Applications in IoV,IEEE Trans. Consum. Electron.,no,V,yes,L,TL,S
-wu2024cefmr,2024,Cooperative Edge Caching Based on Elastic Federated and Multi-Agent Deep Reinforcement Learning in Next-Generation Networks,IEEE Trans. Netw. Service Manag.,no,III VIII,yes,T,TP,S
-xia2024xurllc,2024,xURLLC-Aware Service Provisioning in Vehicular Networks: A Semantic Communication Perspective,IEEE Trans. Wireless Commun.,no,VI VIII,yes,M,LM,"A,S"
-zhang2024dtcaching,2024,Digital Twin-Assisted Data-Driven Optimization for Reliable Edge Caching in Wireless Networks,IEEE J. Sel. Areas Commun.,no,XII,yes,T,T,S
-zheng2024knowledge,2024,Knowledge Caching for Federated Learning in Wireless Cellular Networks,IEEE Trans. Wireless Commun.,no,II VI VIII IX XII,yes,M,PMR,"A,S"
-abushahla2025qnn,2025,"Neural Network Quantization for Microcontrollers: A Comprehensive Survey of Methods, Platforms, and Applications",arXiv preprint arXiv:2508.15008,yes,I VII,"no (survey, tutorial, data set, or general technique)",,,
-chaccour2025lessdata,2025,"Less Data, More Knowledge: Building Next-Generation Semantic Communication Networks",IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
-ericsson2025nov,2025,Ericsson Mobility Report,Ericsson,no,I,"no (survey, tutorial, data set, or general technique)",,,
-gill2024meancache,2025,MeanCache: User-Centric Semantic Caching for LLM Web Services,Proc. IEEE Int. Parallel Distrib. Process. Symp. (IPDPS),no,II III VI VII VIII IX XI XII,yes,M,PMR,X
-liu2025privacy,2025,Backhaul Traffic-Aware Edge Caching for Recommended Content With Personalized Privacy,IEEE Trans. Netw. Service Manag.,no,VI VIII,yes,M,M,"A,S"
-qu2025mei4llm,2025,Mobile Edge Intelligence for Large Language Models: A Contemporary Survey,IEEE Commun. Surveys Tuts.,no,I XII,"no (survey, tutorial, data set, or general technique)",,,
-yao2025cacheblend,2025,CacheBlend: Fast Large Language Model Serving for RAG with Cached Knowledge Fusion,Proc. Eur. Conf. Comput. Syst. (EuroSys),no,VI,yes,M,MR,X
-zhang2025semedge,2025,Semantic Edge Computing and Semantic Communications in 6G Networks: A Unifying Survey and Research Challenges,Comput. Netw.,no,I,"no (survey, tutorial, data set, or general technique)",,,
-baral2026calibration,2026,Closing the Operational Gap in Semantic Caching,arXiv preprint arXiv:2606.19719v4,yes,VI X XI,yes,M,M,D
-biton2026semantic,2026,From Exact Hits to Close Enough: Semantic Caching for LLM Embeddings,arXiv preprint arXiv:2603.03301,yes,VI,yes,M,M,"A,D"
-chen2026edgeinference,2026,"Network Edge Inference for Large Language Models: Principles, Techniques, and Opportunities",arXiv preprint arXiv:2604.22906,yes,VI XII,"no (survey, tutorial, data set, or general technique)",,,
-liu2026semcache,2026,Semantic Caching for Low-Cost LLM Serving: From Offline Learning to Online Adaptation,Proc. IEEE INFOCOM,no,VI,yes,M,TM,"A,S"
-schroeder2026vcache,2026,vCache: Verified Semantic Prompt Caching,Proc. Int. Conf. Learn. Represent. (ICLR),no,II VI VIII X XI,yes,M,TM,X
-yang2026llmcoop,2026,Cooperative Edge Caching with Large Language Model in Wireless Networks,arXiv preprint arXiv:2602.13307,yes,III,yes,T,TP,S
+nemhauser1978analysis,1978,An analysis of approximations for maximizing submodular set functions--- I,Math. Program.,no,VI IX,"no (survey, tutorial, data set, or general technique)",,,
+dan1990approximate,1990,An approximate analysis of the LRU and FIFO buffer replacement schemes,Proc. ACM SIGMETRICS,no,III,yes,T,T,A
+oneil1993lruk,1993,The LRU-K page replacement algorithm for database disk buffering,Proc. ACM SIGMOD Int. Conf. Manage. Data,no,III VII IX,yes,T,T,D
+dar1996semantic,1996,Semantic data caching and replacement,Proc. 22nd Int. Conf. Very Large Data Bases (VLDB),no,VI,yes,M,MT,S
+breslau1999zipf,1999,Web caching and Zipf-like distributions: Evidence and implications,Proc. IEEE INFOCOM,no,IX,yes,T,T,AD
+che2002hierarchical,2002,"Hierarchical web caching systems: Modeling, design and experimental results",IEEE J. Sel. Areas Commun.,no,II III IX X,yes,T,T,AD
+megiddo2003arc,2003,"ARC: A self-tuning, low overhead replacement cache",Proc. USENIX Conf. File Storage Technol. (FAST),no,II III VII IX,yes,T,T,D
+cormode2005countmin,2005,An improved data stream summary: The count-min sketch and its applications,J. Algorithms,no,II VII VIII IX,"no (survey, tutorial, data set, or general technique)",,,
+metwally2005spacesaving,2005,Efficient computation of frequent and top-$k$ elements in data streams,Proc. Int. Conf. Database Theory (ICDT),no,II VII IX,"no (survey, tutorial, data set, or general technique)",,,
+nain2005random,2005,Properties of random direction models,Proc. IEEE INFOCOM,no,V,"no (survey, tutorial, data set, or general technique)",,,
+falchi2008metric,2008,A metric cache for similarity search,Proc. ACM Workshop Large-Scale Distrib. Syst. Inf. Retrieval (LSDS-IR),no,VI,yes,M,M,X
+chierichetti2009similarity,2009,Similarity caching,Proc. ACM SIGMOD-SIGACT-SIGART Symp. Principles Database Syst. (PODS),no,I II VI,yes,M,M,A
+fricker2012versatile,2012,A versatile and accurate approximation for LRU cache performance,Proc. 24th Int. Teletraffic Congr. (ITC),no,III,yes,T,T,A
+dooms2013movietweetings,2013,MovieTweetings: A movie rating dataset collected from Twitter,Proc. Workshop Crowdsourcing Human Comput. Recommender Syst. (CrowdRec) at ACM RecSys,no,I X,"no (survey, tutorial, data set, or general technique)",,,
+golrezaei2013femtocaching,2013,Femtocaching and device-to-device collaboration: A new architecture for wireless video distribution,IEEE Commun. Mag.,no,I II IV V IX,yes,P,PL,S
+shanmugam2013femtocaching,2013,FemtoCaching: Wireless content delivery through distributed caching helpers,IEEE Trans. Inf. Theory,no,I II III IV IX XI,yes,P,P,A
+tadrous2013diversity,2013,Proactive resource allocation: Harnessing the diversity and multicast gains,IEEE Trans. Inf. Theory,no,I,yes,T,T,A
+traverso2013temporal,2013,Temporal locality in today's content caching: Why it matters and how to model it,ACM SIGCOMM Comput. Commun. Rev.,no,III IX,yes,T,T,AD
+bastug2014living,2014,Living on the edge: The role of proactive caching in 5G wireless networks,IEEE Commun. Mag.,no,I II III IV VIII IX,yes,T,TP,S
+blasco2014learning,2014,Learning-based optimization of cache content in a small cell base station,Proc. IEEE ICC,no,II III XI,yes,T,T,S
+fofack2014ttl,2014,Performance evaluation of hierarchical TTL-based cache networks,Comput. Netw.,no,III,yes,T,T,A
+hamidouche2014matching,2014,Many-to-many matching games for proactive social-caching in wireless small cell networks,"Proc. Int. Symp. Model. Optim. Mobile, Ad Hoc, Wireless Netw. (WiOpt)",no,II IV,yes,P,PT,S
+maddahali2014fundamental,2014,Fundamental limits of caching,IEEE Trans. Inf. Theory,no,I II III IX,yes,P,P,A
+martina2014unified,2014,A unified approach to the performance analysis of caching systems,Proc. IEEE INFOCOM,no,III IX,yes,T,T,A
+alotaibi2015game,2015,A game theoretic approach to content trading in proactive wireless networks,Proc. IEEE Int. Symp. Inf. Theory (ISIT),no,II IV VIII,yes,P,PT,A
+blaszczyszyn2015geographic,2015,Optimal geographic caching in cellular networks,Proc. IEEE ICC,no,V,yes,L,LP,A
+hosny2015marketplace,2015,Towards a mobile content marketplace,Proc. IEEE Int. Workshop Signal Process. Adv. Wireless Commun. (SPAWC),no,II IV,yes,P,PT,A
+tadrous2015proactive,2015,Proactive content download and user demand shaping for data networks,IEEE/ACM Trans. Netw.,no,II III IV VIII IX,yes,T,TP,A
+chen2016d2dstackelberg,2016,Caching incentive design in wireless D2D networks: A Stackelberg game approach,Proc. IEEE ICC,no,I II IV IX,yes,P,PL,AS
+hamidouche2016contracts,2016,Breaking the economic barrier of caching in cellular networks: Incentives and contracts,Proc. IEEE GLOBECOM,no,I II IV IX,yes,P,P,AS
+hosny2016centralized,2016,Mobility-aware centralized D2D caching networks,"Proc. Allerton Conf. Commun., Control, Comput.",no,I II V VIII,yes,L,LP,A
+hosny2016impact,2016,Impact of user mobility on D2D caching networks,Proc. IEEE GLOBECOM,no,I II V IX,yes,L,LP,A
+ji2016fundamental,2016,Fundamental limits of caching in wireless D2D networks,IEEE Trans. Inf. Theory,no,I II III V IX,yes,P,PL,A
+leconte2016placing,2016,Placing dynamic content in caches with small population,Proc. IEEE INFOCOM,no,I III IX,yes,T,TP,AS
+poularakis2016multicast,2016,Exploiting caching and multicast for 5G wireless networks,IEEE Trans. Wireless Commun.,no,II IV XI,yes,P,PT,AS
+shen2016stackelberg,2016,A Stackelberg game for incentive proactive caching mechanisms in wireless networks,Proc. IEEE GLOBECOM,no,I II IV IX,yes,P,P,A
+tadrous2016optimal,2016,On optimal proactive caching for mobile networks with demand uncertainties,IEEE/ACM Trans. Netw.,no,III,yes,T,T,A
+tadrous2016pricing,2016,Joint smart pricing and proactive content caching for mobile services,IEEE/ACM Trans. Netw.,no,I IV,yes,P,PT,A
+cer2017sts,2017,SemEval -2017 task 1: Semantic textual similarity multilingual and crosslingual focused evaluation,Proc. 11th Int. Workshop Semantic Eval. (SemEval),no,I X,"no (survey, tutorial, data set, or general technique)",,,
+chen2017echo,2017,Echo state networks for proactive caching in cloud-based radio access networks with mobile users,IEEE Trans. Wireless Commun.,no,II III V VIII,yes,T,TL,S
+chen2017probabilistic,2017,Probabilistic caching in wireless D2D networks: Cache hit optimal versus throughput optimal,IEEE Commun. Lett.,no,V,yes,L,LP,A
+chen2017uav,2017,Caching in the sky: Proactive deployment of cache-enabled unmanned aerial vehicles for optimized quality-of-experience,IEEE J. Sel. Areas Commun.,no,XII,yes,L,LT,S
+drolia2017cachier,2017,Cachier: Edge-caching for recognition applications,Proc. IEEE Int. Conf. Distrib. Comput. Syst. (ICDCS),no,II VI VIII,yes,M,MR,XD
+drolia2017precog,2017,Precog: Prefetching for image recognition applications at the edge,Proc. ACM/IEEE Symp. Edge Comput. (SEC),no,VI VIII,yes,M,MLT,DX
+einziger2017tinylfu,2017,TinyLFU: A highly efficient cache admission policy,ACM Trans. Storage,no,II III VII VIII IX XI,yes,T,TR,AD
+kam2017freshness,2017,Information freshness and popularity in mobile caching,Proc. IEEE Int. Symp. Inf. Theory (ISIT),no,III XII,yes,T,T,A
+muller2017context,2017,Context-aware proactive content caching with service differentiation in wireless networks,IEEE Trans. Wireless Commun.,no,II III VIII IX XI XII,yes,T,T,AD
+vural2017transient,2017,Caching transient data in internet content routers,IEEE/ACM Trans. Netw.,no,VII VIII,yes,R,RT,AS
+wang2017mobility,2017,Mobility-aware caching in D2D networks,IEEE Trans. Wireless Commun.,no,II V VIII X XI,yes,L,LP,AD
+yates2017ageoptimal,2017,Age-optimal constrained cache updating,Proc. IEEE Int. Symp. Inf. Theory (ISIT),no,II III XII,yes,T,T,A
+gabr2018content,2018,Content delivery in mobility-aware D2D caching networks,Proc. IEEE GLOBECOM Workshops,no,IV V,yes,P,PL,A
+guo2018foggycache,2018,FoggyCache: Cross-device approximate computation reuse,Proc. ACM MobiCom,no,II VI VIII X XI,yes,M,MPLR,X
+guo2018potluck,2018,Potluck: Cross-application approximate deduplication for computation-intensive mobile applications,Proc. ACM ASPLOS,no,VI VIII,yes,M,MR,X
+jacob2018quantization,2018,Quantization and training of neural networks for efficient integer-arithmetic-only inference,Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR),no,II VII XI,"no (survey, tutorial, data set, or general technique)",,,
+li2018cellularsurvey,2018,A survey of caching techniques in cellular networks: Research issues and challenges in content placement and delivery strategies,IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
+parvez2018latency,2018,"A survey on low latency towards 5G: RAN , core network and caching solutions",IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
+paschos2018role,2018,The role of caching in future communication systems and networks,IEEE J. Sel. Areas Commun.,no,I IV IX,"no (survey, tutorial, data set, or general technique)",,,
+sadeghi2018optimal,2018,Optimal and scalable caching for 5G using reinforcement learning of space-time popularities,IEEE J. Sel. Topics Signal Process.,no,II III VIII XII,yes,T,T,S
+sermpezis2018soft,2018,Soft cache hits: Improving performance through recommendation and delivery of related content,IEEE J. Sel. Areas Commun.,no,II VI VIII IX,yes,M,M,AD
+tadrous2018improving,2018,On optimal proactive caching with improving predictions over time,"Proc. Allerton Conf. Commun., Control, Comput.",no,III,yes,T,T,A
+tan2018vehicle,2018,Mobility-aware edge caching and computing in vehicle networks: A deep reinforcement learning,IEEE Trans. Veh. Technol.,no,V,yes,L,LTR,S
+wang2018exploiting,2018,Exploiting mobility in cache-assisted D2D networks: Performance analysis and optimization,IEEE Trans. Wireless Commun.,no,II V X XI,yes,L,LP,AD
+wang2018ncc,2018,"Integration of networking, caching, and computing in wireless systems: A survey, some research issues, and challenges",IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
+xu2018service,2018,Joint service caching and task offloading for mobile edge computing in dense networks,Proc. IEEE INFOCOM,no,VII VIII XI,yes,R,RPT,AS
+yu2018federated,2018,Federated learning based proactive content caching in edge computing,Proc. IEEE GLOBECOM,no,II III VIII,yes,T,TP,D
+zhong2018drl,2018,A deep reinforcement learning-based framework for content caching,Proc. Annu. Conf. Inf. Sci. Syst. (CISS),no,I II III,yes,T,T,S
+alnagar2019city,2019,Proactive caching for vehicular ad hoc networks using the city model,Proc. IEEE WCNC Workshops,no,I II V XI,yes,L,LPT,AS
+chatzieleftheriou2019joint,2019,Jointly optimizing content caching and recommendations in small cell networks,IEEE Trans. Mobile Comput.,no,III VI VIII,yes,M,M,AS
+dehghan2019utility,2019,A utility optimization approach to network cache design,IEEE/ACM Trans. Netw.,no,III,yes,T,T,A
+gabr2019social,2019,Social-aware content delivery in low latency D2D caching networks,Proc. IEEE GLOBECOM Workshops,no,IV V VIII,yes,P,PL,A
+luong2017economic,2019,Applications of economic and pricing models for resource management in 5G wireless networks: A survey,IEEE Commun. Surveys Tuts.,no,I IV,"no (survey, tutorial, data set, or general technique)",,,
+paschos2019noregret,2019,Learning to cache with no regrets,Proc. IEEE INFOCOM,no,II III XI XII,yes,T,T,AD
+poularakis2019service,2019,Joint service placement and request routing in multi-cell mobile edge computing networks,Proc. IEEE INFOCOM,no,VII VIII XI,yes,R,RP,AS
+reimers2019sbert,2019,Sentence-BERT: Sentence embeddings using Siamese BERT-networks,Proc. Conf. Empirical Methods Natural Lang. Process. and Int. Joint Conf. Natural Lang. Process. (EMNLP-IJCNLP),no,I X,"no (survey, tutorial, data set, or general technique)",,,
+wang2019glue,2019,GLUE: A multi-task benchmark and analysis platform for natural language understanding,Proc. Int. Conf. Learn. Represent. (ICLR),no,I X,"no (survey, tutorial, data set, or general technique)",,,
+yao2019mec,2019,On mobile edge caching,IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
+zhu2019transient,2019,Caching transient data for Internet of Things: A deep reinforcement learning approach,IEEE Internet Things J.,no,VII,yes,R,RT,S
+bhattacharjee2020regret,2020,Fundamental limits on the regret of online network-caching,Proc. ACM Meas. Anal. Comput. Syst.,no,III,yes,T,T,AD
+garetto2020similarity,2020,Similarity caching: Theory and algorithms,Proc. IEEE INFOCOM,no,II VI VIII XII,yes,M,MT,AD
+lin2020mcunet,2020,MCUNet: Tiny deep learning on IoT devices,Proc. Adv. Neural Inf. Process. Syst. (NeurIPS),no,II VII,"no (survey, tutorial, data set, or general technique)",,,
+ozfatura2020mobility,2020,Mobility-aware coded storage and delivery,IEEE Trans. Commun.,no,V,yes,L,L,A
+qiao2020drl,2020,Deep reinforcement learning for cooperative content caching in vehicular edge computing and networks,IEEE Internet Things J.,no,II IV V VIII,yes,P,PLT,S
+song2020lrb,2020,Learning relaxed Belady for content distribution network caching,Proc. USENIX Symp. Netw. Syst. Design Implement. (NSDI),no,III IX,yes,T,T,D
+wang2020dlcaching,2020,A survey of deep learning for data caching in edge network,Informatics,no,I III IX,"no (survey, tutorial, data set, or general technique)",,,
+bastopcu2021freshness,2021,Information freshness in cache updating systems,IEEE Trans. Wireless Commun.,no,III XII,yes,T,T,A
+david2021tflm,2021,TensorFlow Lite Micro: Embedded machine learning for TinyML systems,Proc. Mach. Learn. Syst. (MLSys),no,VII,"no (survey, tutorial, data set, or general technique)",,,
+dziyauddin2021vec,2021,Computation offloading and content caching and delivery in vehicular edge network: A survey,Computer Networks,no,I V,"no (survey, tutorial, data set, or general technique)",,,
+garetto2021network,2021,Content placement in networks of similarity caches,Comput. Netw.,no,VI,yes,M,M,AD
+jedari2021video,2021,"Video caching, analytics, and delivery at the wireless edge: A survey and future directions",IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
+li2021evolutionary,2021,Incentivizing mobile edge caching and sharing: An evolutionary game approach,Proc. IEEE GLOBECOM,no,II IV VIII,yes,P,PL,AS
+paria2021leadcache,2021,LeadCache: Regret-optimal caching in networks,Proc. Adv. Neural Inf. Process. Syst. (NeurIPS),no,II III XI XII,yes,T,T,AD
+sisalem2021acai,2021,A \c C AI: Ascent similarity caching with approximate indexes,Proc. 33rd Int. Teletraffic Congr. (ITC),no,VI VIII,yes,M,MT,AD
+strinati2021beyond,2021,6G networks: Beyond Shannon towards semantic and goal-oriented communications,Comput. Netw.,no,I VI,"no (survey, tutorial, data set, or general technique)",,,
+wei2021sapoc,2021,Wireless edge caching based on content similarity in dynamic environments,J. Syst. Archit.,no,VI,yes,M,MT,S
+xie2021deepsc,2021,Deep learning enabled semantic communication systems,IEEE Trans. Signal Process.,no,II VI,"no (survey, tutorial, data set, or general technique)",,,
+yates2021aoi,2021,Age of information: An introduction and survey,IEEE J. Sel. Areas Commun.,no,III,"no (survey, tutorial, data set, or general technique)",,,
+yu2021mpcf,2021,Mobility-aware proactive edge caching for connected vehicles using federated learning,IEEE Trans. Intell. Transp. Syst.,no,III VIII,yes,T,TPL,S
+zhang2021aoi,2021,AoI-delay tradeoff in mobile edge caching with freshness-aware content refreshing,IEEE Trans. Wireless Commun.,no,III,yes,T,T,AS
+zhou2021idqnm,2021,Incentive-driven deep reinforcement learning for content caching and D2D offloading,IEEE J. Sel. Areas Commun.,no,IV VIII,yes,P,PTL,D
+abolhassani2022fresh,2022,Fresh caching of dynamic content over the wireless edge,IEEE/ACM Trans. Netw.,no,III XII,yes,T,T,A
+abolhassani2022single,2022,Single vs distributed edge caching for dynamic content,IEEE/ACM Trans. Netw.,no,IV,yes,P,PT,AS
+alnagar2022ojvt,2022,Mobility-aware edge caching for minimizing latency in vehicular networks,IEEE Open J. Veh. Technol.,no,I V VIII,yes,L,LPT,AS
+nomikos2021rl,2022,A survey on reinforcement learning-aided caching in heterogeneous mobile edge networks,IEEE Access,no,I III V,"no (survey, tutorial, data set, or general technique)",,,
+song2022auction,2022,Incentivizing online edge caching via auction-based subsidization,"Proc. IEEE Int. Conf. Sens., Commun., Netw. (SECON)",no,II IV,yes,P,PT,AS
+zheng2022urfl,2022,Unsupervised recurrent federated learning for edge popularity prediction in privacy-preserving mobile-edge computing networks,IEEE Internet Things J.,no,III VIII,yes,T,TP,S
+zhu2022satellite,2022,Cooperative multilayer edge caching in integrated satellite-terrestrial networks,IEEE Trans. Wireless Commun.,no,V XII,yes,L,LP,AS
+araf2023uav,2023,UAV assisted cooperative caching on network edge using multi-agent actor-critic reinforcement learning,IEEE Trans. Veh. Technol.,no,II V VIII XII,yes,L,LPT,S
+bang2023gptcache,2023,GPTCache: An open-source semantic cache for LLM applications enabling faster answers and cost savings,Proc. 3rd Workshop NLP Open Source Softw. (NLP-OSS),no,II VI XII,yes,M,M,X
+bepari2023noma,2023,A survey on applications of cache-aided NOMA,IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
+gunduz2023beyond,2023,"Beyond transmitting bits: Context, semantics, and task-oriented communications",IEEE J. Sel. Areas Commun.,no,I II VI XII,"no (survey, tutorial, data set, or general technique)",,,
+hao2023leomec,2023,"Joint communication, computing, and caching resource allocation in LEO satellite MEC networks",IEEE Access,no,II V XII,yes,L,LR,S
+maher2023dlce,2023,A cache-enabled device-to-device approach based on deep learning,IEEE Access,no,I II III VII VIII,yes,T,TP,D
+mhaisen2023optimistic,2023,Optimistic no-regret algorithms for discrete caching,SIGMETRICS Perform. Eval. Rev.,no,III,yes,T,T,AD
+sabnis2023grades,2023,GRADES: Gradient descent for similarity caching,IEEE/ACM Trans. Netw.,no,VI VIII,yes,M,MT,AD
+wang2023blockchain,2023,Incentive-aware blockchain-assisted intelligent edge caching and computation offloading for IoT,Engineering,no,II IV,yes,P,PTR,S
+xu2023foundation,2023,Joint foundation model caching and inference of generative AI services for edge intelligence,Proc. IEEE GLOBECOM,no,VII XII,yes,M,MR,S
+xu2023kesc,2023,Knowledge-enhanced semantic communication system with OFDM transmissions,Sci. China Inf. Sci.,no,VI XII,yes,M,MP,S
+xu2023metaverse,2023,"A full dive into realizing the edge-enabled metaverse: Visions, enabling technologies, and challenges",IEEE Commun. Surveys Tuts.,no,XII,"no (survey, tutorial, data set, or general technique)",,,
+yang2023semcom,2023,"Semantic communications for future Internet: Fundamentals, applications, and challenges",IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
+yu2023semcache,2023,"Semantic communications, semantic edge computing, and semantic caching",arXiv preprint arXiv:2304.08096,yes,I II VI VIII IX,yes,M,MR,N
+zhou2023iovmarl,2023,Distributed deep multi-agent reinforcement learning for cooperative edge caching in Internet-of-Vehicles,IEEE Trans. Wireless Commun.,no,V VIII,yes,L,LTP,S
+capogrosso2024tinyml,2024,A machine learning-oriented survey on tiny machine learning,IEEE Access,no,I II,"no (survey, tutorial, data set, or general technique)",,,
+gim2024promptcache,2024,Prompt cache: Modular attention reuse for low-latency inference,Proc. Mach. Learn. Syst. (MLSys),no,VI,yes,M,MR,X
+khan2024mec,2024,Content caching in mobile edge computing: A survey,Cluster Comput.,no,I,"no (survey, tutorial, data set, or general technique)",,,
+li2024caching_sky,2024,Caching on the sky: A multiagent federated reinforcement learning approach for UAV-assisted edge caching,IEEE Internet Things J.,no,V VIII XII,yes,L,LPT,S
+li2024edgesurvey,2024,A survey of edge caching: Key issues and challenges,Tsinghua Sci. Technol.,no,I,"no (survey, tutorial, data set, or general technique)",,,
+li2024scalm,2024,SCALM: Towards semantic caching for automated chat services with large language models,Proc. IEEE/ACM 32nd Int. Symp. Quality of Service (IWQoS),no,II VI XI XII,yes,M,M,X
+liu2024cachegen,2024,CacheGen: KV cache compression and streaming for fast large language model serving,Proc. ACM SIGCOMM,no,VI,yes,M,MR,X
+qu2024trimcaching,2024,TrimCaching: Parameter-sharing AI model caching in wireless edge networks,Proc. IEEE Int. Conf. Distrib. Comput. Syst. (ICDCS),no,VII,yes,M,MRP,AS
+regmi2024gptsemcache,2024,GPT semantic cache: Reducing LLM costs and latency via semantic embedding caching,arXiv preprint arXiv:2411.05276,yes,VI XII,yes,M,M,X
+wang2024uaviov,2024,UAV-assisted content caching for human-centric consumer applications in IoV,IEEE Trans. Consum. Electron.,no,V,yes,L,LT,S
+wu2024cefmr,2024,Cooperative edge caching based on elastic federated and multi-agent deep reinforcement learning in next-generation networks,IEEE Trans. Netw. Service Manag.,no,III VIII,yes,T,TP,S
+xia2024xurllc,2024,xURLLC-aware service provisioning in vehicular networks: A semantic communication perspective,IEEE Trans. Wireless Commun.,no,VI VIII,yes,M,ML,AS
+zhang2024dtcaching,2024,Digital twin-assisted data-driven optimization for reliable edge caching in wireless networks,IEEE J. Sel. Areas Commun.,no,XII,yes,T,T,S
+zheng2024knowledge,2024,Knowledge caching for federated learning in wireless cellular networks,IEEE Trans. Wireless Commun.,no,II VI VIII IX XII,yes,M,MPR,AS
+abushahla2025qnn,2025,"Neural network quantization for microcontrollers: A comprehensive survey of methods, platforms, and applications",arXiv preprint arXiv:2508.15008,yes,I VII,"no (survey, tutorial, data set, or general technique)",,,
+chaccour2025lessdata,2025,"Less data, more knowledge: Building next-generation semantic communication networks",IEEE Commun. Surveys Tuts.,no,I,"no (survey, tutorial, data set, or general technique)",,,
+ericsson2025nov,2025,Ericsson mobility report,Ericsson,no,I,"no (survey, tutorial, data set, or general technique)",,,
+gill2024meancache,2025,MeanCache: User-centric semantic caching for LLM web services,Proc. IEEE Int. Parallel Distrib. Process. Symp. (IPDPS),no,II III VI VII VIII IX XI XII,yes,M,MPR,X
+liu2025privacy,2025,Backhaul traffic-aware edge caching for recommended content with personalized privacy,IEEE Trans. Netw. Service Manag.,no,VI VIII,yes,M,M,AS
+qu2025mei4llm,2025,Mobile edge intelligence for large language models: A contemporary survey,IEEE Commun. Surveys Tuts.,no,I XII,"no (survey, tutorial, data set, or general technique)",,,
+yao2025cacheblend,2025,CacheBlend: Fast large language model serving for RAG with cached knowledge fusion,Proc. Eur. Conf. Comput. Syst. (EuroSys),no,VI,yes,M,MR,X
+zhang2025semedge,2025,Semantic edge computing and semantic communications in 6G networks: A unifying survey and research challenges,Comput. Netw.,no,I,"no (survey, tutorial, data set, or general technique)",,,
+baral2026calibration,2026,Closing the operational gap in semantic caching,Proc. Conf. Empirical Methods Natural Lang. Process.: Industry Track (EMNLP),no,VI X XI,yes,M,M,D
+biton2026semantic,2026,Semantic caching: From exact hits to close enough,Proc. 35th ACM Int. Conf. Inf. Knowl. Manage. (CIKM),no,VI,yes,M,M,AD
+chen2026edgeinference,2026,"Network edge inference for large language models: Principles, techniques, and opportunities",ACM Comput. Surv.,no,VI XII,"no (survey, tutorial, data set, or general technique)",,,
+liu2026semcache,2026,Semantic caching for low-cost LLM serving: From offline learning to online adaptation,Proc. IEEE INFOCOM,no,VI,yes,M,MT,AS
+schroeder2026vcache,2026,vCache: Verified semantic prompt caching,Proc. Int. Conf. Learn. Represent. (ICLR),no,II VI VIII X XI,yes,M,MT,X
+yang2026llmcoop,2026,Cooperative edge caching with large language model in wireless networks,IEEE Trans. Mobile Comput.,no,III,yes,T,TP,S
