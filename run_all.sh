@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Regenerates the figures of Section IX.
+# Own parameters: python3 sim/run_sim.py --list  /  python3 sim/run_sim.py v=10 coop=1 --vary p_part=0,0.5,1
 # Usage: ./run_all.sh            (figures from the stored results)
 #        ./run_all.sh --rerun    (also reruns every simulation)
 set -euo pipefail
@@ -13,6 +14,10 @@ if [ "${1:-}" = "--rerun" ]; then
   for e in e1c e1t e1m e3t e5s e5sb; do python3 experiments4.py "$e"; done
   python3 experiments4.py e5t 0.9
   python3 experiments4.py e5t 0.8
+  python3 experiments5.py e5b e2f
+  python3 experiments6.py e6r
+  # Real-data checks (trace, sts, sts2) need downloaded data and encoders: see the header of sim/realdata.py
 fi
 python3 figs2.py e1 e1r e2 e3 e4 e5
+python3 figs6.py
 echo "Figures written to figs/"

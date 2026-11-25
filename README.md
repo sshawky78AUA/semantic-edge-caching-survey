@@ -18,6 +18,7 @@ Section II of the paper defines the model, and Section IX reports the experiment
 | Path | What it is |
 |---|---|
 | `sim/ucm.py` | The simulator: one seeded run of the UCM returns tier shares, hit ratio, latency, fidelity, and SP cost |
+| `sim/run_sim.py` | Command-line runner: set any parameter, sweep one, get hit ratio, tier shares, latency, fidelity, SP cost with 95% CIs |
 | `sim/experiments2.py` | Experiments E1 to E5, E1r, and the closed-form validation (30 seeded runs per point) |
 | `sim/experiments3.py`, `sim/experiments4.py` | Control experiments added in the revision (pooling, aged and admission-based reactive caches, temporal locality, reward robustness, wrong-reuse accounting, trajectory contacts, interaction sensitivity) |
 | `sim/experiments5.py` | V5 controls: E5b (factorial with EWMA as the low level of the time factor) and E2f (reward grid of step 0.05) |
@@ -60,6 +61,22 @@ pip install -r requirements.txt
 ```
 
 Seeds 0 to 29 are reused across the compared policies (common random numbers), so a rerun reproduces the stored values exactly. The reactive policies (`est='lru'`, `'lfu'`, `'lfua'`, `'tlfu'`) draw no extra random numbers, and every option added in the revision defaults to the earlier behavior, so the stored `res2_*` results are reproduced exactly.
+
+## Run your own simulations and change parameters
+
+```
+cd sim
+python3 run_sim.py --list                                   # every parameter and its default
+python3 run_sim.py                                          # the paper's default setting, 30 seeds
+python3 run_sim.py v=10 p_part=0.5 coop=1                   # faster devices, half participation, coordinated BSs
+python3 run_sim.py est=lru drift=0.2 --seeds 10             # reactive LRU caches under faster drift
+python3 run_sim.py tau=0.85 --vary Cb=5,10,20,40            # semantic reuse, sweep BS cache size
+python3 run_sim.py tau=0.85 --vary K=20,40,80,160 --out my.json
+```
+
+From Python: `from ucm import run; run(seed=0, v=10, coop=True)` returns one run as a vector named by `ucm.NAMES` (`hit`, `own`, `d2d`, `bs`, `ibs`, `miss`, `fid`, `lat`, `sp_cost`, `pay`, ...). To rerun a paper experiment with other settings, edit its grid in `experiments2.py` to `experiments6.py` (each experiment is a short function listing the parameter points) and run it as in `run_all.sh`. The simulator is Python with NumPy only; there is no MATLAB version.
+
+Parameters most worth changing: `F` catalog size, `gamma` Zipf skew, `drift` popularity change per epoch, `est` (`oracle`, `stale`, `window`, `ewma`, `mem`, `lru`, `lfu`, `lfua`, `tlfu`), `M` predictor memory, `Cb`/`Cd` BS and device cache sizes, `N` devices, `v` speed (m/s), `r` D2D range (m), `tf` transfer time (s), `coop` BS coordination, `p_part` user participation, `kappa` reward scale, `aware` mobility-aware placement, `tau` similarity threshold (1 = no semantic reuse), `K` semantic classes, `s` within-class spread.
 
 ## Main parameters (`DEF` in `sim/ucm.py`)
 
