@@ -22,7 +22,10 @@ plt.rcParams.update({
     'axes.spines.top': False, 'axes.spines.right': False, 'lines.linewidth': 1.2,
     'lines.markersize': 3.5, 'legend.frameon': False, 'savefig.bbox': 'tight',
     'savefig.pad_inches': 0.02})
-OUT = '../figs/'
+import os
+from ucm import res_path
+OUT = os.environ.get('UCM_FIGS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'figs') + os.sep
+OUT = OUT if OUT.endswith(os.sep) else OUT + os.sep
 
 
 LEG = dict(frameon=False, fontsize=6.5, handlelength=1.9, handletextpad=0.4,
@@ -48,7 +51,7 @@ def legend_below(fig, axes, handles=None, labels=None, ncol=2, gap=0.012, row=No
 
 
 def load(n):
-    return json.load(open(f'res2_{n}.json'))
+    return json.load(open(res_path(f'res2_{n}.json')))
 
 
 def sel(res, **kw):
@@ -121,7 +124,7 @@ def fig_e1():
 def fig_e1r():
     """Controls for RQ1: proactive placement versus reactive policies, pooled and per-cell
     information, under the independent reference model (a) and temporal locality (b)."""
-    r = json.load(open('res3_e1p.json')) + json.load(open('res4_e1c.json'))
+    r = json.load(open(res_path('res3_e1p.json'))) + json.load(open(res_path('res4_e1c.json')))
     for q in r:
         q['kw'].setdefault('loc', 0.0)
     pol = [(('oracle', 'pooled'), 'Oracle'), (('ewma', 'pooled'), 'EWMA, pooled'),
@@ -182,7 +185,7 @@ def fig_e3():
         rs = sel(r, aware=aw)
         for k, y in enumerate(['d2d', 'hit', 'lat']):
             x, m, c = series(rs, 'v', y); line(ax[k], x, m, c, i, lab)
-    rt = json.load(open('res4_e3t.json'))
+    rt = json.load(open(res_path('res4_e3t.json')))
     for k, y in enumerate(['d2d', 'hit', 'lat']):
         x, m, c = series(rt, 'v', y)
         ax[k].plot(x, m, color=INK, marker='x', ls=(0, (1, 1)), label='Mobility-aware, trajectory rule')

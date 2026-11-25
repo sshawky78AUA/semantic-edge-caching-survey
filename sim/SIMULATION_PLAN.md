@@ -1,12 +1,6 @@
-# Simulation Plan: UCM Evaluation for Section IX (RQ1-RQ5)
+# Simulation design: UCM evaluation for Section IX (RQ1-RQ5)
 
-Status (Nov 8, 2026): executed in Python (`experiments2.py`, `figs2.py`, results in `res2_*.json`); results are in Section IX of the paper. MATLAB port (Section 5) remains to do.
-
-Original status: planning document. Targets a MATLAB implementation
-that reproduces the equations of Section II (UCM) one to one, matching the
-validated Python prototype in this folder, so the numbers that go into the
-paper are reproducible and checked against closed forms before anything else
-is trusted.
+Status: executed in Python (`ucm.py`, `experiments2.py` to `experiments6.py`, `run_ucm.py`); results are in Section IX of the article and in the supplement. Run `../run_all.sh` to reproduce them.
 
 ## 1. Objective and mapping to the paper
 
@@ -87,67 +81,3 @@ Keep the design in the current Section IX table, with these additions:
   2. Measured usable-neighbor counts within $\pm 3$ SE of the
      border-corrected analytical value at $v \in \{0, 2, 10\}$ m/s.
   3. D2D share $h_1 \to 0$ as $v \to \pi r/(4 t_f)$ from below.
-
-## 5. Implementation plan (MATLAB)
-
-Port the existing, already-validated Python prototype (`sim/ucm.py`,
-`sim/experiments.py`) function-for-function, since its structure already
-matches the paper's equations one to one and its outputs already pass the
-three validation checks above (measured hit ratio $0.3874\pm0.0005$ vs.
-$0.3881$ closed form, etc.). Proposed module layout:
-
-```
-sim_matlab/
-  ucm_defaults.m      % DEF struct: base-case parameters (Table IV)
-  ucm_semantic.m      % semantic() -> similarity matrix S, coverage matrix Cm
-  ucm_greedy_cover.m  % greedy_cover() -> submodular placement
-  ucm_place_bs.m      % place_bs()  -> independent / coordinated BS placement
-  ucm_place_dev.m     % place_dev() -> proportional / mobility-aware device placement
-  ucm_run.m           % run()       -> one simulation run, all 13 output metrics
-  ucm_avg.m           % avg()       -> R replications, mean + 95% CI (parfor)
-  run_e1_time.m .. run_e5_factorial.m   % one script per experiment, writing a .mat/.csv
-  validate_ucm.m      % the three closed-form checks in Section 4, run first
-  make_figures.m      % regenerates every Section IX/X figure from the .mat/.csv outputs
-```
-
-- Use `parfor` in `ucm_avg.m` over replications (direct analogue of the
-  Python `multiprocessing.Pool`).
-- Use `rng(seed, 'twister')` with substreams (`RandStream` per worker) for
-  reproducibility under parallel execution.
-- Each `run_eX_*.m` script writes its results table to `res_eX.csv` (or
-  `.mat`), mirroring the existing `res_e1.json` ... `res_e5.json`, so the
-  LaTeX tables/figures can be regenerated from a flat file without rerunning
-  the simulation.
-- `validate_ucm.m` must pass before any `run_eX_*.m` script is treated as
-  producing citable numbers.
-
-## 6. Deliverables back into the paper
-
-Once the above runs and passes validation:
-
-1. Five result figures/tables for Section IX (one per RQ, as the current
-   table of experiments already promises).
-2. An updated Section IX with the actual numbers and confidence intervals,
-   replacing the current methodology-only text.
-3. A correction to Section I's contribution (3) and "Organization" paragraph,
-   and to the abstract, so that "we answer RQ1-RQ5 by simulation" is true at
-   the point those sentences are published, not aspirational.
-4. The MATLAB source and the base-case config released alongside the paper,
-   consistent with the "code, parameters, and seeds are released" claim
-   already in the text.
-
-## 7. Open decision for the user
-
-The Python prototype already produces the qualitative results quoted earlier
-in this project (SP coordination 0.365 to 0.580, semantic cache beating a 4x
-larger exact cache, factorial main effects). Two options:
-
-- **(a) Port to MATLAB** per Section 5 above, rerun everything there, and use
-  those numbers in the paper (matches the stated MATLAB preference).
-- **(b) Use the existing Python results directly**, document that the
-  simulator is Python, and skip the port.
-
-(a) costs more time now but keeps the released-code claim consistent with
-preference; (b) is faster but means either changing the released-code
-language in the paper or carrying a MATLAB preference that the artifact
-doesn't reflect.

@@ -1,95 +1,162 @@
 # Unified Caching Model (UCM) simulator
 
-Simulation code and results for the survey
+Simulation code, results, and coding table for the survey
 
-> S. Hosny and J. Tadrous, "From Classical to Semantic Caching: A Survey of Wireless Edge Caching."
+> S. Hosny and J. Tadrous, "From Classical to Semantic Caching: A Survey of Content Caching at the Wireless Edge," submitted to *IEEE Communications Surveys & Tutorials*, 2026.
 
-The UCM puts the four lines of edge caching research in one model. Each line is a layer that can be switched off:
+The UCM places the four lines of edge caching research in one model. Each line is a layer that can be switched off:
 
-- time: popularity prediction, drift, memory-bounded predictors, and reactive LRU/LFU caches
-- people: SP coordination of base-station caches, user participation, and Stackelberg rewards
-- place: random-direction mobility and D2D contacts that must last long enough for a transfer
-- meaning: semantic coverage of a request by similar items, and the fidelity of a semantic hit
+- **time:** popularity prediction, drift, memory-bounded predictors, and reactive LRU/LFU caches
+- **people:** SP coordination of base-station (BS) caches, user participation, and rewards
+- **place:** random-direction mobility and D2D contacts that must last long enough for a transfer
+- **meaning:** semantic coverage of a request by similar items, and the fidelity of a semantic hit
 
-Section II of the paper defines the model, and Section IX reports the experiments below.
+Section IX of the article defines the model and reports the experiments. The supplement gives the derivations, the experiment design, and the control experiments. Everything in both documents can be regenerated from this repository.
 
-## Contents
+## Requirements
 
-| Path | What it is |
-|---|---|
-| `sim/ucm.py` | The simulator: one seeded run of the UCM returns tier shares, hit ratio, latency, fidelity, and SP cost |
-| `sim/run_sim.py` | Command-line runner: set any parameter, sweep one, get hit ratio, tier shares, latency, fidelity, SP cost with 95% CIs |
-| `sim/experiments2.py` | Experiments E1 to E5, E1r, and the closed-form validation (30 seeded runs per point) |
-| `sim/experiments3.py`, `sim/experiments4.py` | Control experiments added in the revision (pooling, aged and admission-based reactive caches, temporal locality, reward robustness, wrong-reuse accounting, trajectory contacts, interaction sensitivity) |
-| `sim/experiments5.py` | V5 controls: E5b (factorial with EWMA as the low level of the time factor) and E2f (reward grid of step 0.05) |
-| `sim/realdata.py` | V5 checks on public data: MovieTweetings request-trace replay and STS Benchmark similarity-versus-meaning curve (download commands in the file header; data are not redistributed) |
-| `sim/experiments6.py` | V6: E6r, the semantic x coordination interaction versus r = B*Cb/K (20 seeds per point) |
-| `sim/figs6.py` | Builds Fig. 6 of the V6 article from `res6_sts.json` and `res6_e6r_summary.json` |
-| `review/cited_works.csv` | Every cited work with year, venue, preprint flag, the article sections that cite it, and its code for the synthesis of Section VIII (main axis, axes T/P/L/M/R, evidence A/S/D/X/N); surveys, data sets, and general techniques are marked as not coded |
-| `sim/figs2.py` | Builds the figures of Section IX from the stored results |
-| `sim/res2_*.json` to `sim/res5_*.json` | Raw per-run results for every point, with means and 95% confidence intervals |
-| `sim/SIMULATION_PLAN.md` | Design and parameter grounding of the experiments |
-| `figs/` | The figures of Section IX (vector PDF) |
-
-## Experiments
-
-| Experiment | Research question | What it varies |
-|---|---|---|
-| validate | | Oracle, no drift, no D2D: hit ratio against the closed form for C = 10, 20, 40 |
-| E1 | RQ1, time | Drift rate and skew for five proactive estimators; predictor memory M |
-| E1r | RQ1, time | Drift rate for proactive estimators versus reactive LRU and LFU caches at the BSs (BS-only network) |
-| E2 | RQ2, people | Reward level with independent or coordinated BSs, at 2 and 10 m/s |
-| E3 | RQ3, place | Speed from 0 to 30 m/s for three device placement rules |
-| E4 | RQ4, meaning | Similarity threshold for three BS cache sizes and for coordinated BSs |
-| E5 | RQ5, interaction | 2^5 factorial design over the five axes |
-| E1p, E1c | RQ1 controls | Pooled vs per-cell estimates; shared vs per-cell reactive state; aged LFU and TinyLFU-style caches; temporal locality (`loc`) |
-| E1t, E1m | RQ1 controls | Requests per item per epoch (`T`); memory knee at F = 800 |
-| E2r | RQ2 controls | Cost-minimizing reward under Beta cost laws, reward scale, and skew, with bootstrap intervals |
-| E3t | RQ3 control | Trajectory-based contact rule (`contact='traj'`) |
-| E4s | RQ4 control | Exact / same-class / wrong-class hits; semantic index slots (`idx_slots`) |
-| E5b, E2f | V5 controls | EWMA low level in the factorial; fine reward grid for the cost-minimizing reward |
-| trace, sts | Public data | One-cache replay of 921,398 timestamped requests; similarity threshold against human ratings on 1,379 sentence pairs |
-| E6r, sts2 | V6 | Interaction versus storage per semantic class r; similarity versus meaning for three encoders on STS-B and a Quora duplicate-question sample |
-| E5s, E5sb, E5t | RQ5 controls | Semantic x coordination contrast under changed K, Cb, class-correlated and cell-specific popularity; factorial at tau = 0.8 and 0.9 |
-
-## Reproduce
+Python 3.10 or later with NumPy and Matplotlib:
 
 ```
 pip install -r requirements.txt
-./run_all.sh            # figures from the stored results
-./run_all.sh --rerun    # also reruns every simulation (about 7,400 runs, roughly 0.5 s each per core)
 ```
 
-Seeds 0 to 29 are reused across the compared policies (common random numbers), so a rerun reproduces the stored values exactly. The reactive policies (`est='lru'`, `'lfu'`, `'lfua'`, `'tlfu'`) draw no extra random numbers, and every option added in the revision defaults to the earlier behavior, so the stored `res2_*` results are reproduced exactly.
+The simulator itself uses only NumPy. The checks on public data (`sim/realdata.py`) need additional packages and downloaded data; see the end of this file.
 
-## Run your own simulations and change parameters
+## Run your own simulations
+
+`sim/run_ucm.py` runs the model with any parameters you choose. Run it from the `sim/` folder.
 
 ```
 cd sim
-python3 run_sim.py --list                                   # every parameter and its default
-python3 run_sim.py                                          # the paper's default setting, 30 seeds
-python3 run_sim.py v=10 p_part=0.5 coop=1                   # faster devices, half participation, coordinated BSs
-python3 run_sim.py est=lru drift=0.2 --seeds 10             # reactive LRU caches under faster drift
-python3 run_sim.py tau=0.85 --vary Cb=5,10,20,40            # semantic reuse, sweep BS cache size
-python3 run_sim.py tau=0.85 --vary K=20,40,80,160 --out my.json
+python3 run_ucm.py                          # default network (Table XI of the article), 20 seeds
+python3 run_ucm.py --list                   # every parameter, its default, and its meaning
+python3 run_ucm.py coop=True tau=0.85       # coordinated BSs with semantic matching
+python3 run_ucm.py --sweep v=0,2,5,10,20,30 aware=True              # effect of device speed
+python3 run_ucm.py --sweep tau=1,0.95,0.9,0.85,0.8 --sweep coop=False,True --plot tau.pdf
+python3 run_ucm.py --sweep est=oracle,stale,ewma,lru,lfu,tlfu drift=0.2 --metrics hit,bs,miss
+python3 run_ucm.py --sweep p_part=0,0.2,0.4,0.6,0.8,1 --metrics sp_cost,hit --csv reward.csv
 ```
 
-From Python: `from ucm import run; run(seed=0, v=10, coop=True)` returns one run as a vector named by `ucm.NAMES` (`hit`, `own`, `d2d`, `bs`, `ibs`, `miss`, `fid`, `lat`, `sp_cost`, `pay`, ...). To rerun a paper experiment with other settings, edit its grid in `experiments2.py` to `experiments6.py` (each experiment is a short function listing the parameter points) and run it as in `run_all.sh`. The simulator is Python with NumPy only; there is no MATLAB version.
+- `name=value` sets a parameter; every other parameter keeps its default.
+- `--sweep name=v1,v2,...` varies one parameter, and a second `--sweep` gives a grid.
+- `--runs` sets the number of seeded runs per point (default 20); results are printed as mean ± 95% confidence interval.
+- Every point uses the same seeds (common random numbers), so differences between points are not caused by different random demand or movement.
+- `--metrics` chooses the printed metrics (`all` prints every metric).
+- `--plot` draws the first metric against the first swept parameter.
+- `--csv` saves the means and intervals; `--out` saves every run as JSON.
 
-Parameters most worth changing: `F` catalog size, `gamma` Zipf skew, `drift` popularity change per epoch, `est` (`oracle`, `stale`, `window`, `ewma`, `mem`, `lru`, `lfu`, `lfua`, `tlfu`), `M` predictor memory, `Cb`/`Cd` BS and device cache sizes, `N` devices, `v` speed (m/s), `r` D2D range (m), `tf` transfer time (s), `coop` BS coordination, `p_part` user participation, `kappa` reward scale, `aware` mobility-aware placement, `tau` similarity threshold (1 = no semantic reuse), `K` semantic classes, `s` within-class spread.
+The same model is available from Python:
 
-## Main parameters (`DEF` in `sim/ucm.py`)
+```python
+from ucm import run, NAMES, DEF
+out = run(seed=0, coop=True, tau=0.85, v=10.0)   # one run, any parameters of DEF
+print(dict(zip(NAMES, out)))
+```
 
-`F=400` items, Zipf exponent `gamma=0.8`, `K=80` semantic classes, `N=80` devices, 4 BSs in a 600 m square, BS and device caches of 20 and 10 items, D2D range 100 m, transfer time 5 s, speed 2 m/s, drift 0.05 per epoch, 20 epochs of 20 slots (3 warm-up epochs), tier delays 1, 5, 20, 40, 100 ms, backhaul and inter-BS costs 1 and 0.3, reward scale 4. The activity `beta` (probability that a device issues a request in a slot) is 1 in all reported results.
+### Parameters (`DEF` in `sim/ucm.py`)
 
-## License
+| Parameter | Default | Meaning |
+|---|---|---|
+| `F` | 400 | Items in the catalog |
+| `K` | 80 | Semantic classes |
+| `gamma` | 0.8 | Zipf exponent of popularity |
+| `N` | 80 | Devices |
+| `area` | 600 | Side of the square region (m); 4 BSs at fixed positions |
+| `r` | 100 | D2D range (m) |
+| `v` | 2 | Device speed (m/s), random-direction mobility |
+| `tf` | 5 | Time to complete a D2D transfer (s) |
+| `dt` | 5 | Slot length (s) |
+| `Cb`, `Cd` | 20, 10 | BS and device cache sizes (items) |
+| `drift` | 0.05 | Popularity drift per epoch |
+| `est` | `ewma` | Popularity estimator: `oracle`, `stale` (last epoch), `window`, `ewma`, `mem` (memory-bounded); reactive BS caches `lru`, `lfu`, `lfua` (aged LFU), `tlfu` (TinyLFU-style admission) |
+| `alpha`, `W`, `M` | 0.5, 3, None | EWMA weight, window length (epochs), counters of the memory-bounded estimator |
+| `tau` | 1.0 | Similarity threshold of a semantic hit (1 = exact match only) |
+| `s` | 0.4 | Spread of item embeddings around their class center |
+| `p_part` | 1.0 | Reward ρ: devices whose private cost is at most ρ cache for others (1 = all join) |
+| `aware` | True | Mobility-aware device placement |
+| `coop` | False | Coordinated BS caches |
+| `E`, `T`, `warm` | 20, 20, 3 | Epochs, slots per epoch, warm-up epochs |
+| `lat` | (1, 5, 20, 40, 100) | Delays (ms) of own cache, D2D, local BS, other BS, backhaul |
+| `c_bh`, `c_ib`, `kappa` | 1.0, 0.3, 4.0 | SP cost of a backhaul and an inter-BS fetch, reward scale |
+| `beta` | 1.0 | Probability that a device issues a request in a slot |
+| `info` | `pooled` | `pooled`, `shared`, or `local` estimates at the BSs |
+| `cost_dist` | `uniform` | Private participation costs: `uniform`, `beta25`, `beta52` |
+| `idx_slots` | 0 | BS cache slots given up to the semantic index |
+| `loc`, `loc_len` | 0.0, 50 | Temporal locality: probability of re-referencing one of the last `loc_len` requests |
+| `lam_cell` | 0.0 | Weight of a cell-specific popularity |
+| `class_corr` | False | Popularity ranks assigned to whole semantic classes |
+| `contact` | `mean` | D2D contact rule: `mean` (article) or `traj` (along simulated trajectories) |
 
-Code: MIT (see `LICENSE`). Results and figures: CC BY 4.0.
+### Metrics (`NAMES` in `sim/ucm.py`)
 
-## Data and encoders for the V6 checks (`realdata.py sts2`)
+`hit` hit ratio; `own`, `d2d`, `bs`, `ibs`, `miss` share of requests served by the device's own cache, D2D, the local BS, another BS, and the backhaul; `lat` mean latency (ms), also `lat_part` and `lat_non` for participating and other devices; `fid` mean fidelity of hits; `sp_cost` SP cost per request and `pay` the reward part of it; `participants` number of participating devices; `exact`, `sem_ok`, `sem_wrong` share of requests answered by the exact item, by an item of the same class, and by an item of another class.
 
-Data are not redistributed. Besides the files listed in the header of `sim/realdata.py`:
+## Reproduce the article
 
-- `data/qqp_dev_sample.tsv`: a 1,999-pair sample of the GLUE QQP development set (columns id, qid1, qid2, question1, question2, is_duplicate), from a public copy in Microsoft's NeuronBlocks repository (md5 4a25960ed86e6188213be0b44e2088dd).
-- `data/quora_first1000.csv`: the first 1,000 rows of the Quora question-pairs data with columns question1_en, question2_en, is_duplicate, from a public English-French copy. After removing duplicate pairs the two files give 2,995 pairs.
-- Encoders: `sentence-transformers/all-MiniLM-L6-v2` and `sentence-transformers/all-mpnet-base-v2`. Hugging Face was not reachable from our build machine, so we loaded the weights from GitHub mirrors (henrytanner52/all-MiniLM-L6-v2 at f92edf0, homer6/all-mpnet-base-v2 at bd44305) and checked them by reproducing the published STS-B Spearman correlations (0.82 and 0.83). Set `MINILM` and `MPNET` to the local model folders. Loading the models from Hugging Face gives the same weights.
+```
+./run_all.sh            # figures and table values from the stored results (seconds)
+./run_all.sh --quick    # runs every experiment with 3 seeds per point into quick/ (smoke test)
+./run_all.sh --rerun    # reruns every simulation with the seeds of the article
+```
+
+Seeds are fixed (seeds 0 to 29, or 0 to 19 for the control experiments), and the same seeds are used for every compared policy, so `--rerun` reproduces the stored results exactly. `UCM_WORKERS` sets the number of processes (default: all cores). The full rerun is about 23,000 runs of roughly 0.5 s each (about 3 CPU-hours, so under half an hour on 8 cores).
+
+`sim/tables.py` prints the numbers of the tables from the stored results, for example `python3 tables.py rho` for Table S-II.
+
+| Script and command | Experiment | Output | In the article |
+|---|---|---|---|
+| `experiments2.py validate` | Closed-form check: oracle, no drift, no D2D, C = 10, 20, 40 | `res2_validate.json` | Sec. IX, Sec. S-II |
+| `experiments2.py e1` | E1: drift and skew for five estimators; predictor memory | `res2_e1.json` | Fig. S1 |
+| `experiments2.py e1r` | E1r: proactive estimators vs. reactive LRU/LFU | `res2_e1r.json` | Fig. 5 |
+| `experiments2.py e2` | E2: reward with independent or coordinated BSs, 2 and 10 m/s | `res2_e2.json` | Fig. 6, Table S-II |
+| `experiments2.py e3` | E3: speed 0 to 30 m/s for three placement rules | `res2_e3.json` | Fig. S2 |
+| `experiments2.py e4` | E4: similarity threshold for three BS cache sizes and coordinated BSs | `res2_e4.json` | Fig. 7 |
+| `experiments2.py e5` | E5: 2^5 factorial design over the five factors | `res2_e5.json` | Fig. 8, Sec. S-VI |
+| `experiments3.py e1p`, `experiments4.py e1c` | Pooled vs. per-cell estimates; aged LFU, TinyLFU-style; temporal locality | `res3_e1p.json`, `res4_e1c.json` | Fig. 5, Sec. S-III |
+| `experiments4.py e1t`, `e1m` | Requests per item per epoch; memory knee at F = 800 | `res4_e1t.json`, `res4_e1m.json` | Sec. S-III |
+| `experiments3.py e2r 0..2` | Cost-minimizing reward under other cost laws, κ, and γ | `res3_e2r*.json` | Table S-II |
+| `experiments5.py e2f` | Reward grid of step 0.05, 30 seeds | `res5_e2f.json` | Sec. IX (`tables.py rho_fine`) |
+| `experiments4.py e3t` | Trajectory-based contact rule | `res4_e3t.json` | Fig. S2, Sec. S-V |
+| `experiments3.py e4s` | Exact / same-class / wrong-class hits; semantic index slots | `res3_e4s.json` | Fig. 7, Table S-I |
+| `experiments4.py e5s`, `e5sb`, `e5t 0.8`, `e5t 0.9` | Interaction under changed K, Cb, class-correlated and cell-specific popularity; factorial at τ = 0.8, 0.9 | `res4_e5*.json` | Sec. S-VI |
+| `experiments5.py e5b` | Factorial with EWMA as the low level of prediction | `res5_e5b.json` | Sec. S-VI |
+| `experiments6.py e6r` | Semantic × coordination interaction versus r = B·Cb/K | `res6_e6r.json`, `res6_e6r_summary.json` | Table S-III |
+| `realdata.py trace` | Replay of 921,398 MovieTweetings requests | `res5_trace.json` | Table XII |
+| `realdata.py sts`, `sts2` | Similarity vs. meaning on STS-B and Quora pairs | `res5_sts.json`, `res6_sts.json` | Tables S-IV, S-V |
+| `figs2.py e1 e1r e2 e3 e4 e5` | Figures from the stored results | `figs/*.pdf` | Figs. 5 to 8, S1, S2 |
+
+The design and parameter choices are explained in `sim/SIMULATION_PLAN.md`.
+
+## Repository contents
+
+| Path | What it is |
+|---|---|
+| `sim/ucm.py` | The simulator: `run(seed, **params)` simulates one seeded run and returns the metrics |
+| `sim/run_ucm.py` | Command-line interface for your own runs, sweeps, CSV output, and plots |
+| `sim/experiments2.py` to `sim/experiments6.py` | The experiments of the article and the supplement |
+| `sim/realdata.py` | Checks on public data (request trace and sentence-pair benchmarks) |
+| `sim/figs2.py`, `sim/tables.py` | Figures and table values from the stored results |
+| `sim/res*.json` | Raw per-run results of every point, with means and 95% confidence intervals |
+| `figs/` | The simulation figures of the article and the supplement (vector PDF) |
+| `review/cited_works.csv` | Every cited work with year, venue, preprint flag, citing sections, and its code for the synthesis of Section VIII (main axis, axes T/P/L/M/R, evidence A/S/D/X/N) |
+
+## Data for the checks on public data
+
+Data are not redistributed. Download them into `sim/data/` before running `realdata.py`:
+
+```
+mkdir -p sim/data
+curl -sL -o sim/data/ratings.dat https://raw.githubusercontent.com/sidooms/MovieTweetings/master/latest/ratings.dat
+curl -sL -o sim/data/stsb-en-test.csv https://raw.githubusercontent.com/PhilipMay/stsb-multi-mt/main/data/stsb-en-test.csv
+pip install spacy sentence-transformers
+pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.8.0/en_core_web_md-3.8.0-py3-none-any.whl
+```
+
+- `sim/data/qqp_dev_sample.tsv`: a 1,999-pair sample of the GLUE QQP development set (columns id, qid1, qid2, question1, question2, is_duplicate), from a public copy in Microsoft's NeuronBlocks repository (md5 4a25960ed86e6188213be0b44e2088dd).
+- `sim/data/quora_first1000.csv`: the first 1,000 rows of the Quora question-pairs data with columns question1_en, question2_en, is_duplicate. After removing duplicate pairs the two files give 2,995 pairs.
+- Encoders: `sentence-transformers/all-MiniLM-L6-v2` and `sentence-transformers/all-mpnet-base-v2`. They are loaded from Hugging Face, or from local folders given by the environment variables `MINILM` and `MPNET`. We checked the weights by reproducing the published STS-B Spearman correlations (0.82 and 0.83).
+
+## Citation and license
+
+Please cite the article above (see `CITATION.cff`). Code: MIT (see `LICENSE`). Results and figures: CC BY 4.0.

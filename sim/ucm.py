@@ -1,6 +1,33 @@
 """Unified caching model (UCM): time, people (SP and user cooperation), place, meaning.
-Python prototype. A MATLAB port follows once the design is agreed."""
+
+run(seed, **kw) simulates one seeded run of the model with the defaults in DEF, overridden
+by any keyword argument, and returns the metrics listed in NAMES. See run_ucm.py for a
+command-line interface and README.md for the meaning of each parameter."""
+import os
+import warnings
+
 import numpy as np
+
+# lat_non is undefined (NaN) when every device participates; averaging it is expected to warn
+warnings.filterwarnings("ignore", message="Mean of empty slice")
+warnings.filterwarnings("ignore", message="Degrees of freedom <= 0")
+
+
+def nruns(R):
+    """Runs per point: R, or the value of the environment variable UCM_RUNS (quick tests)."""
+    return int(os.environ.get('UCM_RUNS') or R)
+
+
+def workers():
+    """Worker processes: all cores, or the value of UCM_WORKERS."""
+    return int(os.environ.get('UCM_WORKERS') or os.cpu_count() or 1)
+
+
+def res_path(name):
+    """Where results are written and read: the folder UCM_RES (default: this folder)."""
+    d = os.environ.get('UCM_RES') or os.path.dirname(os.path.abspath(__file__))
+    os.makedirs(d, exist_ok=True)
+    return os.path.join(d, name)
 
 DEF = dict(F=400, K=80, gamma=0.8, N=80, area=600., r=100., v=2., tf=5., dt=5.,
            Cb=20, Cd=10, drift=0.05, est='ewma', alpha=0.5, W=3, M=None,

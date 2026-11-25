@@ -4,9 +4,8 @@ Raw per-run outputs are stored so effects can be estimated with standard errors.
 import json, sys, itertools
 import numpy as np
 from concurrent.futures import ProcessPoolExecutor
-from ucm import run, NAMES
+from ucm import run, NAMES, nruns, workers, res_path
 
-R = 30
 
 
 def _job(a):
@@ -15,6 +14,7 @@ def _job(a):
 
 
 def pt(pool, kw, tag=None):
+    R = nruns(30)
     raw = np.array(list(pool.map(_job, [(s, kw) for s in range(R)])))
     m = np.nanmean(raw, 0)
     ci = 1.96 * np.nanstd(raw, 0, ddof=1) / np.sqrt(R)
@@ -96,7 +96,7 @@ def e5(pool):
 
 if __name__ == '__main__':
     for name in sys.argv[1:]:
-        with ProcessPoolExecutor(2) as pool:
+        with ProcessPoolExecutor(workers()) as pool:
             res = globals()[name](pool)
-        json.dump(res, open(f'res2_{name}.json', 'w'))
+        json.dump(res, open(res_path(f'res2_{name}.json'), 'w'))
         print(name, 'done', len(res), flush=True)

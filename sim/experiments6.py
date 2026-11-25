@@ -3,8 +3,10 @@ E6r: semantic x coordination 2x2 contrast as a function of r = B*Cb/K, the ratio
      distinct items that coordinated BSs can hold to the number of semantic classes.
      Family 'K' varies K at Cb = 20; family 'Cb' varies Cb at K = 80 (B = 4)."""
 import json, sys, itertools
+import numpy as np
 from concurrent.futures import ProcessPoolExecutor
 from experiments3 import pt
+from ucm import workers, res_path
 
 
 def e6r(pool):
@@ -19,33 +21,34 @@ def e6r(pool):
     return out
 
 
-def e6r_summary(res):
-    """Interaction I (points of hit ratio) = half the 2x2 contrast of hit ratio, per seed, with 95% CI;
-    Il = the same contrast on -log(1-hit), hit clipped at 0.999. Written to res6_e6r_summary.json (used by figs6.py)."""
-    import numpy as np
+
+def summarize(res, eps=1e-3):
+    """Interaction of semantic matching and coordination at each r (supplementary Table S-III).
+    I: half the 2x2 contrast of the hit ratio, in percentage points, mean and 95% CI over runs.
+    Il: the same contrast on -log(miss ratio), per run (miss ratio floored at eps), then averaged."""
     from ucm import NAMES
-    hi = NAMES.index('hit')
-    cells = {}
-    for x in res:
-        kw = x['kw']
-        cells.setdefault((x['family'], kw.get('K', 80), kw.get('Cb', 20)), {})[tuple(x['levels'])] = np.array(x['raw'])[:, hi]
+    H = NAMES.index('hit')
+    g = {}
+    for q in res:
+        key = (q['family'], q['kw'].get('K', 80), q['kw'].get('Cb', 20))
+        g.setdefault(key, {})[tuple(q['levels'])] = np.array(q['raw'])[:, H]
     out = []
-    for (fam, K, Cb), h in cells.items():
-        I = 100 * ((h[(1, 1)] + h[(0, 0)]) - (h[(0, 1)] + h[(1, 0)])) / 2
-        g = {l: -np.log(1 - np.minimum(h[l], 1 - 1e-3)) for l in h}  # hit ratio clipped at 0.999
-        Il = ((g[(1, 1)] + g[(0, 0)]) - (g[(0, 1)] + g[(1, 0)])).mean() / 2
-        out.append(dict(fam=fam, K=K, Cb=Cb, r=4 * Cb / K, I=float(I.mean()),
-                        ci=float(1.96 * I.std(ddof=1) / np.sqrt(len(I))), Il=float(Il),
-                        h11=float(h[(1, 1)].mean()), h01=float(h[(0, 1)].mean()),
-                        h10=float(h[(1, 0)].mean()), h00=float(h[(0, 0)].mean())))
-    return out
+    for (fam, K, Cb), h in g.items():
+        per = (h[(1, 1)] - h[(0, 1)] - h[(1, 0)] + h[(0, 0)]) / 2 * 100
+        L = {k: np.log(np.maximum(1 - v, eps)) for k, v in h.items()}
+        il = -(L[(1, 1)] - L[(0, 1)] - L[(1, 0)] + L[(0, 0)]) / 2
+        out.append(dict(fam=fam, K=K, Cb=Cb, r=4 * Cb / K, I=per.mean(),
+                        ci=1.96 * per.std(ddof=1) / np.sqrt(len(per)), Il=il.mean(),
+                        h11=h[(1, 1)].mean(), h01=h[(0, 1)].mean(),
+                        h10=h[(1, 0)].mean(), h00=h[(0, 0)].mean()))
+    return sorted(out, key=lambda d: (d['fam'], d['r']))
 
 
 if __name__ == '__main__':
     for name in sys.argv[1:]:
-        with ProcessPoolExecutor(2) as pool:
+        with ProcessPoolExecutor(workers()) as pool:
             res = globals()[name](pool)
-        json.dump(res, open(f'res6_{name}.json', 'w'))
+        json.dump(res, open(res_path(f'res6_{name}.json'), 'w'))
         if name == 'e6r':
-            json.dump(e6r_summary(res), open('res6_e6r_summary.json', 'w'))
+            json.dump(summarize(res), open(res_path('res6_e6r_summary.json'), 'w'))
         print(name, 'done', len(res), flush=True)

@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite the survey and this software."
-title: "Unified Caching Model (UCM) simulator for 'From Classical to Semantic Caching: A Survey of Wireless Edge Caching'"
+title: "Unified Caching Model (UCM) simulator for 'From Classical to Semantic Caching: A Survey of Content Caching at the Wireless Edge'"
 authors:
   - family-names: Hosny
     given-names: Sameh

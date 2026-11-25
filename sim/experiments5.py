@@ -6,6 +6,7 @@ import json, sys, itertools
 import numpy as np
 from concurrent.futures import ProcessPoolExecutor
 from experiments3 import pt
+from ucm import workers, res_path
 
 
 def e5b(pool):
@@ -32,7 +33,7 @@ def e2f(pool):
 
 if __name__ == '__main__':
     for name in sys.argv[1:]:
-        with ProcessPoolExecutor(2) as pool:
+        with ProcessPoolExecutor(workers()) as pool:
             res = globals()[name](pool)
-        json.dump(res, open(f'res5_{name}.json', 'w'))
+        json.dump(res, open(res_path(f'res5_{name}.json'), 'w'))
         print(name, 'done', len(res), flush=True)

@@ -10,6 +10,7 @@ import json, sys, itertools
 import numpy as np
 from concurrent.futures import ProcessPoolExecutor
 from experiments3 import pt
+from ucm import workers, res_path
 
 
 def e1c(pool):
@@ -86,10 +87,10 @@ def e5t(pool, tau):
 
 if __name__ == '__main__':
     name = sys.argv[1]
-    with ProcessPoolExecutor(2) as pool:
+    with ProcessPoolExecutor(workers()) as pool:
         if name == 'e5t':
             tau = float(sys.argv[2]); res = e5t(pool, tau); name = f'e5t{sys.argv[2]}'
         else:
             res = globals()[name](pool)
-    json.dump(res, open(f'res4_{name}.json' if name != 'e5sb' else 'res4_e5s_base.json', 'w'))
+    json.dump(res, open(res_path(f'res4_{name}.json' if name != 'e5sb' else 'res4_e5s_base.json'), 'w'))
     print(name, 'done', len(res), flush=True)

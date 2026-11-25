@@ -7,7 +7,7 @@ Seeds 0..R-1 are reused across compared policies (common random numbers)."""
 import json, sys
 import numpy as np
 from concurrent.futures import ProcessPoolExecutor
-from ucm import run, NAMES
+from ucm import run, NAMES, nruns, workers, res_path
 
 
 def _job(a):
@@ -16,6 +16,7 @@ def _job(a):
 
 
 def pt(pool, kw, tag=None, R=30):
+    R = nruns(R)
     raw = np.array(list(pool.map(_job, [(s, kw) for s in range(R)])))
     m = np.nanmean(raw, 0)
     ci = 1.96 * np.nanstd(raw, 0, ddof=1) / np.sqrt(R)
@@ -58,12 +59,12 @@ def e2r(pool, part):
 
 if __name__ == '__main__':
     name = sys.argv[1]
-    with ProcessPoolExecutor(2) as pool:
+    with ProcessPoolExecutor(workers()) as pool:
         if name == 'e2r':
             part = int(sys.argv[2])
             res = e2r(pool, part)
             name = f'e2r{part}'
         else:
             res = globals()[name](pool)
-    json.dump(res, open(f'res3_{name}.json', 'w'))
+    json.dump(res, open(res_path(f'res3_{name}.json'), 'w'))
     print(name, 'done', len(res), flush=True)

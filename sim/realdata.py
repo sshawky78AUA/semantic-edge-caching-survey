@@ -20,6 +20,7 @@ import json
 import sys
 
 import numpy as np
+from ucm import res_path
 
 DATA = 'data/'
 
@@ -105,7 +106,7 @@ def trace():
                 row[pol] = replay(req, ep, F, C, pol)
             print(row, flush=True)
             out['runs'].append(row)
-    json.dump(out, open('res5_trace.json', 'w'), indent=1)
+    json.dump(out, open(res_path('res5_trace.json'), 'w'), indent=1)
 
 
 def sts():
@@ -130,7 +131,7 @@ def sts():
                                  precision=float(same[sel].mean()) if sel.any() else None,
                                  recall=float((sel & same).sum() / same.sum())))
     print(json.dumps(out, indent=1))
-    json.dump(out, open('res5_sts.json', 'w'), indent=1)
+    json.dump(out, open(res_path('res5_sts.json'), 'w'), indent=1)
 
 
 def _pairs():
@@ -156,7 +157,7 @@ def _auc(score, y):
 
 def sts2():
     """Similarity versus meaning for three encoders: averaged spaCy word vectors, all-MiniLM-L6-v2, all-mpnet-base-v2.
-    The two sentence encoders are loaded from local copies (env MINILM, MPNET); see README for their source."""
+    The two sentence encoders are loaded from local copies (env MINILM, MPNET), or from Hugging Face when these are unset; see README for their source."""
     import os
     data = _pairs()
     encs = {}
@@ -164,8 +165,9 @@ def sts2():
     nlp = spacy.load('en_core_web_md')
     encs['spacy-avg'] = lambda xs: np.array([nlp(x).vector for x in xs])
     from sentence_transformers import SentenceTransformer
-    for name, env in (('MiniLM-L6', 'MINILM'), ('MPNet-base', 'MPNET')):
-        m = SentenceTransformer(os.environ[env], device='cpu')
+    for name, env, hub in (('MiniLM-L6', 'MINILM', 'sentence-transformers/all-MiniLM-L6-v2'),
+                           ('MPNet-base', 'MPNET', 'sentence-transformers/all-mpnet-base-v2')):
+        m = SentenceTransformer(os.environ.get(env, hub), device='cpu')
         encs[name] = (lambda mm: (lambda xs: mm.encode(xs, batch_size=64, normalize_embeddings=True)))(m)
     out = {}
     for dn, pairs in data.items():
@@ -191,7 +193,7 @@ def sts2():
                                                 recall=float(y[order][:k + 1].sum() / y.sum()))
             out[dn]['enc'][en] = res
             print(dn, en, {k: v for k, v in res.items() if k != 'curve'})
-    json.dump(out, open('res6_sts.json', 'w'), indent=1)
+    json.dump(out, open(res_path('res6_sts.json'), 'w'), indent=1)
 
 
 if __name__ == '__main__':
